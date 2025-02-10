@@ -7,13 +7,20 @@ import {
   SidebarProvider,
   SidebarRail,
 } from "@asyncstatus/ui/components/sidebar.js";
-import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Link,
+  Outlet,
+  redirect,
+} from "@tanstack/react-router";
 
+import { authQueryOptions } from "../../auth";
 import {
   ProjectSelect,
   ProjectSelectSkeleton,
 } from "../../components/project-select";
 import { SidebarMainLinks } from "../../components/sidebar-main-links";
+import { SidebarSkeleton } from "../../components/sidebar-skeleton";
 import {
   SidebarTeams,
   SidebarTeamsSkeleton,
@@ -25,6 +32,15 @@ import {
 
 export const Route = createFileRoute("/$projectSlug/_layout")({
   component: RouteComponent,
+  beforeLoad: async ({ location, context: { queryClient } }) => {
+    const user = await queryClient
+      .ensureQueryData(authQueryOptions())
+      .catch(() => {});
+    if (!user) {
+      throw redirect({ to: "/login", search: { redirect: location.pathname } });
+    }
+  },
+  pendingComponent: SidebarSkeleton,
 });
 
 function RouteComponent() {

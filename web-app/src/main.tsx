@@ -1,69 +1,9 @@
-import { PropsWithChildren, StrictMode } from "react";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarProvider,
-  SidebarRail,
-} from "@asyncstatus/ui/components/sidebar.js";
-import { cn } from "@asyncstatus/ui/lib/utils.js";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { StrictMode } from "react";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { RouterProvider } from "@tanstack/react-router";
 import ReactDOM from "react-dom/client";
 
-import { ProjectSelectSkeleton } from "./components/project-select";
-import { SidebarMainLinks } from "./components/sidebar-main-links";
-import { SidebarTeamsSkeleton } from "./components/sidebar-teams";
-import { SidebarUserSkeleton } from "./components/sidebar-user";
-import { routeTree } from "./routeTree.gen";
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000,
-    },
-  },
-});
-
-const router = createRouter({
-  routeTree,
-  context: { queryClient },
-  defaultPreload: "render",
-  defaultPreloadStaleTime: 0,
-  scrollRestoration: true,
-  defaultPendingComponent: () => (
-    <SidebarProvider>
-      <Sidebar collapsible="icon" className="z-20">
-        <SidebarHeader>
-          <ProjectSelectSkeleton />
-        </SidebarHeader>
-
-        <SidebarContent>
-          <SidebarMainLinks
-            _Link={(props: PropsWithChildren<any>) => (
-              <p {...props} className={cn("cursor-pointer", props.className)} />
-            )}
-            projectSlug={""}
-          />
-          <SidebarTeamsSkeleton />
-        </SidebarContent>
-
-        <SidebarFooter>
-          <SidebarUserSkeleton />
-        </SidebarFooter>
-
-        <SidebarRail />
-      </Sidebar>
-    </SidebarProvider>
-  ),
-});
-
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: typeof router;
-  }
-}
+import { queryClient, router } from "./router";
 
 const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {

@@ -1,7 +1,6 @@
 {
   "name": "@asyncstatus/root",
   "private": true,
-  "packageManager": "bun@1.2.2",
   "workspaces": [
     "web-app",
     "packages/*"

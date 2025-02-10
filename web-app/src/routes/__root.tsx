@@ -1,26 +1,16 @@
 import { lazy, Suspense } from "react";
-import {
-  getCurrentUserOptions,
-  getSessionOptions,
-} from "@asyncstatus/sdk/@tanstack/react-query.gen";
-import { QueryClient, useSuspenseQueries } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
-  { component: Component }
-);
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient;
+}>()({ component: Component });
 
 function Component() {
-  useSuspenseQueries({
-    queries: [
-      { ...getSessionOptions(), staleTime: Infinity },
-      { ...getCurrentUserOptions(), staleTime: Infinity },
-    ],
-  });
-
   return (
     <>
       <Outlet />
+
       <Suspense>
         <TanStackRouterDevtools position="bottom-right" />
       </Suspense>

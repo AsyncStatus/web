@@ -1,25 +1,35 @@
-import { AsyncStatusLogo } from "@asyncstatus/ui/components/async-status-logo.js";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { SimpleHeader } from "@asyncstatus/ui/components/simple-header.js";
+import {
+  createFileRoute,
+  isRedirect,
+  Outlet,
+  redirect,
+} from "@tanstack/react-router";
+import { z } from "zod";
+
+import { authQueryOptions } from "../../auth";
 
 export const Route = createFileRoute("/(auth)/_layout")({
+  validateSearch: z.object({ redirect: z.string().optional().catch("") }),
+  beforeLoad: ({ context: { queryClient } }) => {
+    queryClient
+      .ensureQueryData(authQueryOptions())
+      .then(() => {
+        throw redirect({ to: "/" });
+      })
+      .catch((error) => {
+        if (isRedirect(error)) {
+          throw error;
+        }
+      });
+  },
   component: RouteComponent,
 });
 
 function RouteComponent() {
   return (
     <>
-      <header className="flex items-center justify-center p-6">
-        <nav>
-          <a
-            className="flex items-center gap-0.5"
-            href="http://localhost:3000"
-            aria-label="AsyncStatus Home"
-          >
-            <AsyncStatusLogo className="h-4 w-auto" />
-          </a>
-        </nav>
-      </header>
-
+      <SimpleHeader href={import.meta.env.VITE_WEB_MARKETING_URL} />
       <Outlet />
     </>
   );

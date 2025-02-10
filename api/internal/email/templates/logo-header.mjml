@@ -1,0 +1,6 @@
+<mj-section>
+  <mj-column>
+    <mj-spacer height="40px"></mj-spacer>
+    <mj-image align='left' href="https://asyncstatus.com" src="https://cdn.asyncstatus.com/icon-192.png" alt="" width='40px' height='40px'></mj-image>
+  </mj-column>
+</mj-section>

@@ -39,6 +39,8 @@ import {
 } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 
+import { router } from "../router";
+
 export function SidebarUser(props: { projectSlug: string }) {
   const { isMobile } = useSidebar();
   const user = useSuspenseQuery(getCurrentUserOptions());
@@ -55,19 +57,21 @@ export function SidebarUser(props: { projectSlug: string }) {
               <Avatar className="size-8">
                 <AvatarImage
                   src={
-                    user.data.avatar_url
-                      ? `https://cdn.asyncstatus.com/${user.data.avatar_url}`
+                    user.data!.avatar_url
+                      ? `https://cdn.asyncstatus.com/${user.data!.avatar_url}`
                       : undefined
                   }
-                  alt={user.data.name}
+                  alt={user.data!.name}
                 />
-                <AvatarFallback>{getInitials(user.data.name)}</AvatarFallback>
+                <AvatarFallback>{getInitials(user.data!.name)}</AvatarFallback>
               </Avatar>
 
               <div className="grid flex-1 pt-1 text-left text-sm leading-3">
-                <span className="truncate font-semibold">{user.data.name}</span>
+                <span className="truncate font-semibold">
+                  {user.data!.name}
+                </span>
                 <span className="truncate text-xs text-muted-foreground">
-                  {user.data.email}
+                  {user.data!.email}
                 </span>
               </div>
 
@@ -86,21 +90,23 @@ export function SidebarUser(props: { projectSlug: string }) {
                 <Avatar className="size-8">
                   <AvatarImage
                     src={
-                      user.data.avatar_url
-                        ? `https://cdn.asyncstatus.com/${user.data.avatar_url}`
+                      user.data!.avatar_url
+                        ? `https://cdn.asyncstatus.com/${user.data!.avatar_url}`
                         : undefined
                     }
-                    alt={user.data.name}
+                    alt={user.data!.name}
                   />
-                  <AvatarFallback>{getInitials(user.data.name)}</AvatarFallback>
+                  <AvatarFallback>
+                    {getInitials(user.data!.name)}
+                  </AvatarFallback>
                 </Avatar>
 
                 <div className="grid flex-1 pt-1 text-left text-sm leading-3">
                   <span className="truncate font-semibold">
-                    {user.data.name}
+                    {user.data!.name}
                   </span>
                   <span className="truncate text-xs text-muted-foreground">
-                    {user.data.email}
+                    {user.data!.email}
                   </span>
                 </div>
               </div>
@@ -109,7 +115,7 @@ export function SidebarUser(props: { projectSlug: string }) {
             <DropdownMenuSeparator />
 
             <UserDropdownItems
-              userId={user.data.id}
+              userId={user.data!.id}
               projectSlug={props.projectSlug}
             />
           </DropdownMenuContent>
@@ -123,8 +129,10 @@ function UserDropdownItems(props: { projectSlug: string; userId: string }) {
   const queryClient = useQueryClient();
   const logout = useMutation({
     ...logoutMutation(),
-    onSuccess: () => {
-      queryClient.resetQueries();
+    onSuccess: async () => {
+      await router.invalidate();
+      await router.navigate({ to: "/login" });
+      await queryClient.resetQueries();
     },
   });
   return (

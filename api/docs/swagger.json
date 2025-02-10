@@ -1,0 +1,1322 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "AsyncStatus API",
+        "contact": {},
+        "version": "0.1"
+    },
+    "host": "api.asyncstatus.com",
+    "paths": {
+        "/auth/email/sign-in": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "signs in user by email",
+                "operationId": "sign-in-email",
+                "parameters": [
+                    {
+                        "description": "Sign in email body",
+                        "name": "sign_in_email_body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SignInEmailBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Session"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/session": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "returns current user session",
+                "operationId": "get-session",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Session"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "logout the current user",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/session/user": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "returns current user from session, only call it when you sure that user is authenticated (e.g. you fetch get-session in your middleware)",
+                "operationId": "get-current-user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CurrentUser"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/health": {
+            "get": {
+                "tags": [
+                    "health"
+                ],
+                "summary": "get health",
+                "operationId": "get-health",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/healthhandler.HealthResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "create project",
+                "operationId": "create-project",
+                "parameters": [
+                    {
+                        "description": "Create project body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateProjectBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Project"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{project_slug}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "get project",
+                "operationId": "get-project",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Project slug",
+                        "name": "project_slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Project"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{project_slug}/teams": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "projectteam"
+                ],
+                "summary": "get project teams",
+                "operationId": "get-project-teams",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Project slug",
+                        "name": "project_slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ProjectTeam"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "projectteam"
+                ],
+                "summary": "create project team",
+                "operationId": "create-project-team",
+                "parameters": [
+                    {
+                        "description": "Create project team body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/projectteamhandler.CreateProjectTeamBody"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Project slug",
+                        "name": "project_slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ProjectTeam"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{project_slug}/teams/{id}": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "projectteam"
+                ],
+                "summary": "update project team",
+                "operationId": "update-project-team",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Project team ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Project team data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateProjectTeamBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ProjectTeam"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{project_slug}/teams/{team_slug}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "projectteam"
+                ],
+                "summary": "get project team",
+                "operationId": "get-project-team",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Project slug",
+                        "name": "project_slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Team slug",
+                        "name": "team_slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ProjectTeam"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{project_slug}/teams/{team_slug}/memberships": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "projectteammembership"
+                ],
+                "summary": "get project team memberships",
+                "operationId": "get-project-team-memberships",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Project slug",
+                        "name": "project_slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Team slug",
+                        "name": "team_slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ProjectTeamMembershipWithUser"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "projectteammembership"
+                ],
+                "summary": "create project team membership",
+                "operationId": "create-project-team-membership",
+                "parameters": [
+                    {
+                        "description": "Body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateProjectTeamMembershipBody"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Project slug",
+                        "name": "project_slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Team slug",
+                        "name": "team_slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ProjectTeamMembership"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{project_slug}/teams/{team_slug}/memberships/{id}": {
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ProjectTeamMembership"
+                ],
+                "summary": "Delete project team membership",
+                "operationId": "delete-project-team-membership",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Project team membership ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ProjectTeamMembership"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "get user",
+                "operationId": "get-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "email",
+                        "name": "email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/list": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "list users",
+                "operationId": "list-users",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 50,
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "minimum": 0,
+                        "type": "integer",
+                        "default": 0,
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "orderby",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "DESC",
+                        "name": "orderdirection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Stringified JSON of `[]PaginatedBodySearch` type",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "list",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/PaginatedData-User"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/projects": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "get user projects",
+                "operationId": "get-user-projects",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Project"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/projects/{project_slug}/memberships/{team_slug}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "get user team membership",
+                "operationId": "get-user-team-membership",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Team slug",
+                        "name": "team_slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Project slug",
+                        "name": "project_slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ProjectTeamMembership"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ASError": {
+            "type": "object",
+            "required": [
+                "details",
+                "internal_status",
+                "message"
+            ],
+            "properties": {
+                "details": {
+                    "type": "string"
+                },
+                "errors_map": {
+                    "$ref": "#/definitions/validator.ValidationErrorsTranslations"
+                },
+                "internal_status": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "CreateProjectBody": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 3
+                }
+            }
+        },
+        "CreateProjectTeamMembershipBody": {
+            "type": "object",
+            "required": [
+                "userId"
+            ],
+            "properties": {
+                "position": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 3,
+                    "x-nullable": true
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "CurrentUser": {
+            "type": "object",
+            "required": [
+                "avatar_url",
+                "email",
+                "id",
+                "name",
+                "timezone"
+            ],
+            "properties": {
+                "avatar_url": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "timezone": {
+                    "type": "string"
+                }
+            }
+        },
+        "PaginatedData-User": {
+            "type": "object",
+            "required": [
+                "results",
+                "total_count"
+            ],
+            "properties": {
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/User"
+                    }
+                },
+                "total_count": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Project": {
+            "type": "object",
+            "required": [
+                "avatar_url",
+                "created_at",
+                "id",
+                "name",
+                "plan",
+                "slug",
+                "updated_at"
+            ],
+            "properties": {
+                "avatar_url": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "plan": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "x-nullable": true
+                }
+            }
+        },
+        "ProjectTeam": {
+            "type": "object",
+            "required": [
+                "archived_at",
+                "created_at",
+                "emoji",
+                "id",
+                "name",
+                "parent_team_id",
+                "project_id",
+                "slug",
+                "updated_at"
+            ],
+            "properties": {
+                "archived_at": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "emoji": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "id": {
+                    "type": "string"
+                },
+                "made_private_at": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent_team_id": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "project_id": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "x-nullable": true
+                }
+            }
+        },
+        "ProjectTeamMembership": {
+            "type": "object",
+            "required": [
+                "archived_at",
+                "created_at",
+                "id",
+                "position",
+                "team_id",
+                "user_id"
+            ],
+            "properties": {
+                "archived_at": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "position": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "team_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "ProjectTeamMembershipWithUser": {
+            "type": "object",
+            "required": [
+                "archived_at",
+                "created_at",
+                "id",
+                "position",
+                "team_id",
+                "user",
+                "user_id"
+            ],
+            "properties": {
+                "archived_at": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "position": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "team_id": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/User"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "Session": {
+            "type": "object",
+            "required": [
+                "created_at",
+                "id",
+                "last_active_at",
+                "refreshed_at",
+                "user_approved_at",
+                "user_avatar_url",
+                "user_created_at",
+                "user_email",
+                "user_id",
+                "user_name",
+                "user_timezone",
+                "user_updated_at",
+                "user_verified_at"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "last_active_at": {
+                    "type": "string"
+                },
+                "refreshed_at": {
+                    "type": "string"
+                },
+                "user_approved_at": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "user_avatar_url": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "user_created_at": {
+                    "type": "string"
+                },
+                "user_email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "type": "string"
+                },
+                "user_timezone": {
+                    "type": "string"
+                },
+                "user_updated_at": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "user_verified_at": {
+                    "type": "string",
+                    "x-nullable": true
+                }
+            }
+        },
+        "SignInEmailBody": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "UpdateProjectTeamBody": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "emoji": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 3
+                }
+            }
+        },
+        "User": {
+            "type": "object",
+            "required": [
+                "approved_at",
+                "archived_at",
+                "avatar_url",
+                "created_at",
+                "email",
+                "id",
+                "name",
+                "referrer",
+                "updated_at",
+                "verified_at"
+            ],
+            "properties": {
+                "approved_at": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "archived_at": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "avatar_url": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "referrer": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "updated_at": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "verified_at": {
+                    "type": "string",
+                    "x-nullable": true
+                }
+            }
+        },
+        "healthhandler.HealthResponse": {
+            "type": "object",
+            "properties": {
+                "postgres_ping": {
+                    "type": "string"
+                },
+                "redis_ping": {
+                    "type": "string"
+                }
+            }
+        },
+        "projectteamhandler.CreateProjectTeamBody": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "emoji": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 3
+                }
+            }
+        },
+        "validator.ValidationErrorsTranslations": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            }
+        }
+    }
+}

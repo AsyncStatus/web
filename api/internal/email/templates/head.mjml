@@ -1,0 +1,41 @@
+<mj-head>
+  <mj-raw>
+    <meta name="color-scheme" content="light" />
+    <meta name="supported-color-schemes" content="light" />
+    <style>
+      @font-face {
+        font-family: "ABCFavorit";
+        src: url("https://cdn.asyncstatus.com/ABCFavorit-Bold.woff2") format("woff2");
+        font-display: swap;
+        font-weight: 700;
+      }
+
+      @font-face {
+        font-family: "ABCFavorit";
+        src: url("https://cdn.asyncstatus.com/ABCFavorit-Medium.woff2") format("woff2");
+        font-display: swap;
+        font-weight: 500;
+      }
+
+      @font-face {
+        font-family: "ABCFavorit";
+        src: url("https://cdn.asyncstatus.com/ABCFavorit-Regular.woff2") format("woff2");
+        font-display: swap;
+        font-weight: 400;
+      }
+      
+      @font-face {
+        font-family: "ABCFavorit Fallback";
+        src: local("Arial");
+        ascent-override: 100.56%;
+        descent-override: 32.87%;
+        line-gap-override: 0%;
+        size-adjust: 103.42%;
+      }
+    </style>
+  </mj-raw>
+
+  <mj-attributes>
+    <mj-all font-family="'ABCFavorit', 'ABCFavorit Fallback', 'Helvetica Neue', Helvetica, Arial, sans-serif" color='#1A1A1A' font-weight="500" line-height="1.65" letter-spacing="-0.005em"></mj-all>
+  </mj-attributes>
+</mj-head>

@@ -1,0 +1,902 @@
+definitions:
+  ASError:
+    properties:
+      details:
+        type: string
+      errors_map:
+        $ref: '#/definitions/validator.ValidationErrorsTranslations'
+      internal_status:
+        type: string
+      message:
+        type: string
+    required:
+    - details
+    - internal_status
+    - message
+    type: object
+  CreateProjectBody:
+    properties:
+      name:
+        maxLength: 255
+        minLength: 3
+        type: string
+    required:
+    - name
+    type: object
+  CreateProjectTeamMembershipBody:
+    properties:
+      position:
+        maxLength: 255
+        minLength: 3
+        type: string
+        x-nullable: true
+      userId:
+        type: string
+    required:
+    - userId
+    type: object
+  CurrentUser:
+    properties:
+      avatar_url:
+        type: string
+        x-nullable: true
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      timezone:
+        type: string
+    required:
+    - avatar_url
+    - email
+    - id
+    - name
+    - timezone
+    type: object
+  PaginatedData-User:
+    properties:
+      results:
+        items:
+          $ref: '#/definitions/User'
+        type: array
+      total_count:
+        type: integer
+    required:
+    - results
+    - total_count
+    type: object
+  Project:
+    properties:
+      avatar_url:
+        type: string
+        x-nullable: true
+      created_at:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      plan:
+        type: string
+      slug:
+        type: string
+      updated_at:
+        type: string
+        x-nullable: true
+    required:
+    - avatar_url
+    - created_at
+    - id
+    - name
+    - plan
+    - slug
+    - updated_at
+    type: object
+  ProjectTeam:
+    properties:
+      archived_at:
+        type: string
+        x-nullable: true
+      created_at:
+        type: string
+      emoji:
+        type: string
+        x-nullable: true
+      id:
+        type: string
+      made_private_at:
+        type: string
+        x-nullable: true
+      name:
+        type: string
+      parent_team_id:
+        type: string
+        x-nullable: true
+      project_id:
+        type: string
+      slug:
+        type: string
+      updated_at:
+        type: string
+        x-nullable: true
+    required:
+    - archived_at
+    - created_at
+    - emoji
+    - id
+    - name
+    - parent_team_id
+    - project_id
+    - slug
+    - updated_at
+    type: object
+  ProjectTeamMembership:
+    properties:
+      archived_at:
+        type: string
+        x-nullable: true
+      created_at:
+        type: string
+      id:
+        type: string
+      position:
+        type: string
+        x-nullable: true
+      team_id:
+        type: string
+      user_id:
+        type: string
+    required:
+    - archived_at
+    - created_at
+    - id
+    - position
+    - team_id
+    - user_id
+    type: object
+  ProjectTeamMembershipWithUser:
+    properties:
+      archived_at:
+        type: string
+        x-nullable: true
+      created_at:
+        type: string
+      id:
+        type: string
+      position:
+        type: string
+        x-nullable: true
+      team_id:
+        type: string
+      user:
+        $ref: '#/definitions/User'
+      user_id:
+        type: string
+    required:
+    - archived_at
+    - created_at
+    - id
+    - position
+    - team_id
+    - user
+    - user_id
+    type: object
+  Session:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      last_active_at:
+        type: string
+      refreshed_at:
+        type: string
+      user_approved_at:
+        type: string
+        x-nullable: true
+      user_avatar_url:
+        type: string
+        x-nullable: true
+      user_created_at:
+        type: string
+      user_email:
+        format: email
+        type: string
+      user_id:
+        type: string
+      user_name:
+        type: string
+      user_timezone:
+        type: string
+      user_updated_at:
+        type: string
+        x-nullable: true
+      user_verified_at:
+        type: string
+        x-nullable: true
+    required:
+    - created_at
+    - id
+    - last_active_at
+    - refreshed_at
+    - user_approved_at
+    - user_avatar_url
+    - user_created_at
+    - user_email
+    - user_id
+    - user_name
+    - user_timezone
+    - user_updated_at
+    - user_verified_at
+    type: object
+  SignInEmailBody:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  UpdateProjectTeamBody:
+    properties:
+      emoji:
+        type: string
+        x-nullable: true
+      name:
+        maxLength: 255
+        minLength: 3
+        type: string
+    required:
+    - name
+    type: object
+  User:
+    properties:
+      approved_at:
+        type: string
+        x-nullable: true
+      archived_at:
+        type: string
+        x-nullable: true
+      avatar_url:
+        type: string
+        x-nullable: true
+      created_at:
+        type: string
+      email:
+        format: email
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      referrer:
+        type: string
+        x-nullable: true
+      updated_at:
+        type: string
+        x-nullable: true
+      verified_at:
+        type: string
+        x-nullable: true
+    required:
+    - approved_at
+    - archived_at
+    - avatar_url
+    - created_at
+    - email
+    - id
+    - name
+    - referrer
+    - updated_at
+    - verified_at
+    type: object
+  healthhandler.HealthResponse:
+    properties:
+      postgres_ping:
+        type: string
+      redis_ping:
+        type: string
+    type: object
+  projectteamhandler.CreateProjectTeamBody:
+    properties:
+      emoji:
+        type: string
+        x-nullable: true
+      name:
+        maxLength: 255
+        minLength: 3
+        type: string
+    required:
+    - name
+    type: object
+  validator.ValidationErrorsTranslations:
+    additionalProperties:
+      type: string
+    type: object
+host: api.asyncstatus.com
+info:
+  contact: {}
+  title: AsyncStatus API
+  version: "0.1"
+paths:
+  /auth/email/sign-in:
+    post:
+      consumes:
+      - application/json
+      operationId: sign-in-email
+      parameters:
+      - description: Sign in email body
+        in: body
+        name: sign_in_email_body
+        required: true
+        schema:
+          $ref: '#/definitions/SignInEmailBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Session'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ASError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: signs in user by email
+      tags:
+      - auth
+  /auth/session:
+    delete:
+      consumes:
+      - application/json
+      operationId: logout
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ASError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: logout the current user
+      tags:
+      - auth
+    get:
+      consumes:
+      - application/json
+      operationId: get-session
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Session'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ASError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: returns current user session
+      tags:
+      - auth
+  /auth/session/user:
+    get:
+      consumes:
+      - application/json
+      operationId: get-current-user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/CurrentUser'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ASError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: returns current user from session, only call it when you sure that
+        user is authenticated (e.g. you fetch get-session in your middleware)
+      tags:
+      - auth
+  /health:
+    get:
+      operationId: get-health
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/healthhandler.HealthResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ASError'
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: get health
+      tags:
+      - health
+  /projects:
+    post:
+      consumes:
+      - application/json
+      operationId: create-project
+      parameters:
+      - description: Create project body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/CreateProjectBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Project'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: create project
+      tags:
+      - project
+  /projects/{project_slug}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-project
+      parameters:
+      - description: Project slug
+        in: path
+        name: project_slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Project'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: get project
+      tags:
+      - project
+  /projects/{project_slug}/teams:
+    get:
+      consumes:
+      - application/json
+      operationId: get-project-teams
+      parameters:
+      - description: Project slug
+        in: path
+        name: project_slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ProjectTeam'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ASError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ASError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: get project teams
+      tags:
+      - projectteam
+    post:
+      consumes:
+      - application/json
+      operationId: create-project-team
+      parameters:
+      - description: Create project team body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/projectteamhandler.CreateProjectTeamBody'
+      - description: Project slug
+        in: path
+        name: project_slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ProjectTeam'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ASError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ASError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: create project team
+      tags:
+      - projectteam
+  /projects/{project_slug}/teams/{id}:
+    put:
+      consumes:
+      - application/json
+      operationId: update-project-team
+      parameters:
+      - description: Project team ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Project team data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateProjectTeamBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ProjectTeam'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ASError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ASError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: update project team
+      tags:
+      - projectteam
+  /projects/{project_slug}/teams/{team_slug}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-project-team
+      parameters:
+      - description: Project slug
+        in: path
+        name: project_slug
+        required: true
+        type: string
+      - description: Team slug
+        in: path
+        name: team_slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ProjectTeam'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ASError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ASError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: get project team
+      tags:
+      - projectteam
+  /projects/{project_slug}/teams/{team_slug}/memberships:
+    get:
+      consumes:
+      - application/json
+      operationId: get-project-team-memberships
+      parameters:
+      - description: Project slug
+        in: path
+        name: project_slug
+        required: true
+        type: string
+      - description: Team slug
+        in: path
+        name: team_slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ProjectTeamMembershipWithUser'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ASError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ASError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: get project team memberships
+      tags:
+      - projectteammembership
+    post:
+      consumes:
+      - application/json
+      operationId: create-project-team-membership
+      parameters:
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreateProjectTeamMembershipBody'
+      - description: Project slug
+        in: path
+        name: project_slug
+        required: true
+        type: string
+      - description: Team slug
+        in: path
+        name: team_slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ProjectTeamMembership'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ASError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ASError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: create project team membership
+      tags:
+      - projectteammembership
+  /projects/{project_slug}/teams/{team_slug}/memberships/{id}:
+    delete:
+      operationId: delete-project-team-membership
+      parameters:
+      - description: Project team membership ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ProjectTeamMembership'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ASError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ASError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: Delete project team membership
+      tags:
+      - ProjectTeamMembership
+  /users:
+    get:
+      consumes:
+      - application/json
+      operationId: get-user
+      parameters:
+      - format: email
+        in: query
+        name: email
+        type: string
+      - in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: get user
+      tags:
+      - user
+  /users/{user_id}/projects:
+    get:
+      consumes:
+      - application/json
+      operationId: get-user-projects
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - in: query
+        maximum: 100
+        minimum: 1
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/Project'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ASError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: get user projects
+      tags:
+      - user
+  /users/{user_id}/projects/{project_slug}/memberships/{team_slug}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-user-team-membership
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: Team slug
+        in: path
+        name: team_slug
+        required: true
+        type: string
+      - description: Project slug
+        in: path
+        name: project_slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ProjectTeamMembership'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ASError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ASError'
+      summary: get user team membership
+      tags:
+      - user
+  /users/list:
+    get:
+      consumes:
+      - application/json
+      operationId: list-users
+      parameters:
+      - default: 50
+        in: query
+        minimum: 1
+        name: limit
+        type: integer
+      - default: 0
+        in: query
+        minimum: 0
+        name: offset
+        type: integer
+      - in: query
+        name: orderby
+        type: string
+      - default: DESC
+        in: query
+        name: orderdirection
+        type: string
+      - description: Stringified JSON of `[]PaginatedBodySearch` type
+        in: query
+        name: search
+        type: string
+      - default: list
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/PaginatedData-User'
+      summary: list users
+      tags:
+      - user
+swagger: "2.0"

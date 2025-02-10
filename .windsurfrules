@@ -20,7 +20,7 @@ web-app/                      # Web app
     ├── routes/               # Tanstack Router routes
     ├── main.tsx              # Main entrypoint
     └── routeTree.gen.ts      # Tanstack Router route tree generation
-web-api/                      # Web API
+api/                          # Web API
 ├── src/
     ├── cmd/                  # Command-line tools and entrypoints
     ├── config/               # Configuration package
@@ -32,10 +32,10 @@ web-api/                      # Web API
     ├── seed/                 # Seed data for the database
     └── service/              # Business logic and services that couldn't be handled by the repository
 packages/
-├── sdk/
+└── sdk/
     └── lib/
         └── client.ts         # Fetch client created with `@hey-api/client-fetch`
-    ├── gen/
+    └── gen/
         ├── client.gen.ts     # Generated fetch client
         ├── types.gen.ts      # Generated TypeScript types
         ├── sdk.gen.ts        # Generated SDK client (get*, update*, etc.)

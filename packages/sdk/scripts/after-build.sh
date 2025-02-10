@@ -35,7 +35,7 @@ export function getASError(err: any): ASError | undefined {
   if (!err || typeof err !== "object") {
     return;
   }
-  if (err.details === undefined || err.message === undefined || err.internal_status === undefined) {
+  if (err.message === undefined || err.internal_status === undefined) {
     return;
   }
 

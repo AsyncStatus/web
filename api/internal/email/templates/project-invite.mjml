@@ -1,0 +1,27 @@
+<mjml>
+  <mj-include path="./head.mjml" />
+
+  <mj-body>
+    <mj-include path="./logo-header.mjml" />
+  
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="32px" font-weight="700">{{ .UserName }} invites you to join AsyncStatus</mj-text>
+
+        <mj-spacer height="40px"></mj-spacer>
+
+        <mj-button background-color="#0d54d8" color="#ffffff" border-radius="6px" font-size="16px" width="100%" font-weight='700' href="{{ .JoinProjectURL }}">Join project</mj-button>
+        
+        <mj-spacer height="40px"></mj-spacer>
+        <mj-text font-size="14px" color="#a3a3a3">This link will only be valid for the next 7 days.</mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column>
+        <mj-spacer height="40px"></mj-spacer>
+        <mj-text align='left' font-size="20px" align="center"><a href="https://asyncstatus.com" style="color: #1A1A1A; text-decoration: none;">Happy collaboration,<br /> <span style="font-size:16px;color:#a3a3a3;">— Kacper and Toby, Co-Founders</span></a></mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

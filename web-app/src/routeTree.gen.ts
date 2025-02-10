@@ -13,6 +13,9 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LayoutImport } from './routes/_layout'
+import { Route as CreateProjectIndexImport } from './routes/create-project/index'
+import { Route as LayoutIndexImport } from './routes/_layout.index'
 import { Route as authLayoutImport } from './routes/(auth)/_layout'
 import { Route as ProjectSlugLayoutImport } from './routes/$projectSlug/_layout'
 import { Route as ProjectSlugLayoutIndexImport } from './routes/$projectSlug/_layout.index'
@@ -34,6 +37,23 @@ const ProjectSlugRoute = ProjectSlugImport.update({
   id: '/$projectSlug',
   path: '/$projectSlug',
   getParentRoute: () => rootRoute,
+} as any)
+
+const LayoutRoute = LayoutImport.update({
+  id: '/_layout',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CreateProjectIndexRoute = CreateProjectIndexImport.update({
+  id: '/create-project/',
+  path: '/create-project/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LayoutIndexRoute = LayoutIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LayoutRoute,
 } as any)
 
 const authLayoutRoute = authLayoutImport.update({
@@ -62,6 +82,13 @@ const authLayoutLoginRoute = authLayoutLoginImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_layout': {
+      id: '/_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof LayoutImport
+      parentRoute: typeof rootRoute
+    }
     '/$projectSlug': {
       id: '/$projectSlug'
       path: '/$projectSlug'
@@ -90,6 +117,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLayoutImport
       parentRoute: typeof authRoute
     }
+    '/_layout/': {
+      id: '/_layout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof LayoutIndexImport
+      parentRoute: typeof LayoutImport
+    }
+    '/create-project/': {
+      id: '/create-project/'
+      path: '/create-project'
+      fullPath: '/create-project'
+      preLoaderRoute: typeof CreateProjectIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/(auth)/_layout/login': {
       id: '/(auth)/_layout/login'
       path: '/login'
@@ -108,6 +149,17 @@ declare module '@tanstack/react-router' {
 }
 
 // Create and export the route tree
+
+interface LayoutRouteChildren {
+  LayoutIndexRoute: typeof LayoutIndexRoute
+}
+
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutIndexRoute: LayoutIndexRoute,
+}
+
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
 
 interface ProjectSlugLayoutRouteChildren {
   ProjectSlugLayoutIndexRoute: typeof ProjectSlugLayoutIndexRoute
@@ -155,52 +207,71 @@ const authRouteChildren: authRouteChildren = {
 const authRouteWithChildren = authRoute._addFileChildren(authRouteChildren)
 
 export interface FileRoutesByFullPath {
+  '': typeof LayoutRouteWithChildren
   '/$projectSlug': typeof ProjectSlugLayoutRouteWithChildren
-  '/': typeof authLayoutRouteWithChildren
+  '/': typeof LayoutIndexRoute
+  '/create-project': typeof CreateProjectIndexRoute
   '/login': typeof authLayoutLoginRoute
   '/$projectSlug/': typeof ProjectSlugLayoutIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/$projectSlug': typeof ProjectSlugLayoutIndexRoute
-  '/': typeof authLayoutRouteWithChildren
+  '/': typeof LayoutIndexRoute
+  '/create-project': typeof CreateProjectIndexRoute
   '/login': typeof authLayoutLoginRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/_layout': typeof LayoutRouteWithChildren
   '/$projectSlug': typeof ProjectSlugRouteWithChildren
   '/$projectSlug/_layout': typeof ProjectSlugLayoutRouteWithChildren
   '/(auth)': typeof authRouteWithChildren
   '/(auth)/_layout': typeof authLayoutRouteWithChildren
+  '/_layout/': typeof LayoutIndexRoute
+  '/create-project/': typeof CreateProjectIndexRoute
   '/(auth)/_layout/login': typeof authLayoutLoginRoute
   '/$projectSlug/_layout/': typeof ProjectSlugLayoutIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/$projectSlug' | '/' | '/login' | '/$projectSlug/'
+  fullPaths:
+    | ''
+    | '/$projectSlug'
+    | '/'
+    | '/create-project'
+    | '/login'
+    | '/$projectSlug/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/$projectSlug' | '/' | '/login'
+  to: '/$projectSlug' | '/' | '/create-project' | '/login'
   id:
     | '__root__'
+    | '/_layout'
     | '/$projectSlug'
     | '/$projectSlug/_layout'
     | '/(auth)'
     | '/(auth)/_layout'
+    | '/_layout/'
+    | '/create-project/'
     | '/(auth)/_layout/login'
     | '/$projectSlug/_layout/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
+  LayoutRoute: typeof LayoutRouteWithChildren
   ProjectSlugRoute: typeof ProjectSlugRouteWithChildren
   authRoute: typeof authRouteWithChildren
+  CreateProjectIndexRoute: typeof CreateProjectIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  LayoutRoute: LayoutRouteWithChildren,
   ProjectSlugRoute: ProjectSlugRouteWithChildren,
   authRoute: authRouteWithChildren,
+  CreateProjectIndexRoute: CreateProjectIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -213,8 +284,16 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/_layout",
         "/$projectSlug",
-        "/(auth)"
+        "/(auth)",
+        "/create-project/"
+      ]
+    },
+    "/_layout": {
+      "filePath": "_layout.tsx",
+      "children": [
+        "/_layout/"
       ]
     },
     "/$projectSlug": {
@@ -242,6 +321,13 @@ export const routeTree = rootRoute
       "children": [
         "/(auth)/_layout/login"
       ]
+    },
+    "/_layout/": {
+      "filePath": "_layout.index.tsx",
+      "parent": "/_layout"
+    },
+    "/create-project/": {
+      "filePath": "create-project/index.tsx"
     },
     "/(auth)/_layout/login": {
       "filePath": "(auth)/_layout.login.tsx",

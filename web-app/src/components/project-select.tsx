@@ -35,7 +35,7 @@ export function ProjectSelect(props: { projectSlug: string }) {
   const projects = useSuspenseQuery(
     getUserProjectsOptions({
       query: { limit: 100 },
-      path: { user_id: user.data.id },
+      path: { user_id: user.data!.id },
     })
   );
   const activeProject = useMemo(

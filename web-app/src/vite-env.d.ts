@@ -2,7 +2,7 @@
 
 interface ImportMetaEnv {
   readonly WEB_API_URL: string;
-  readonly WEB_API_URL_PREFIX: string;
+  readonly VITE_WEB_MARKETING_URL: string;
 }
 
 interface ImportMeta {

@@ -15,8 +15,6 @@ export const zCreateProjectBody = z.object({
 
 export const zCreateProjectTeamMembershipBody = z.object({
   position: z.union([z.string().min(3).max(255), z.null()]).optional(),
-  projectSlug: z.string(),
-  teamSlug: z.string(),
   userId: z.string(),
 });
 
@@ -25,11 +23,6 @@ export const zCurrentUser = z.object({
   email: z.string(),
   id: z.string(),
   name: z.string(),
-  timezone: z.string(),
-});
-
-export const zJoinWaitlistBody = z.object({
-  email: z.string().email(),
   timezone: z.string(),
 });
 
@@ -46,7 +39,7 @@ export const zPaginatedDataUser = z.object({
       referrer: z.union([z.string(), z.null()]),
       updated_at: z.union([z.string(), z.null()]),
       verified_at: z.union([z.string(), z.null()]),
-    }),
+    })
   ),
   total_count: z.number().int(),
 });
@@ -143,6 +136,11 @@ export const zUser = z.object({
   verified_at: z.union([z.string(), z.null()]),
 });
 
+export const zHealthhandlerHealthResponse = z.object({
+  postgres_ping: z.string().optional(),
+  redis_ping: z.string().optional(),
+});
+
 export const zProjectteamhandlerCreateProjectTeamBody = z.object({
   emoji: z.union([z.string(), z.null()]).optional(),
   name: z.string().min(3).max(255),
@@ -158,9 +156,11 @@ export const zGetSessionResponse = zSession;
 
 export const zGetCurrentUserResponse = zCurrentUser;
 
-export const zGetHealthResponse = z.string();
+export const zGetHealthResponse = zHealthhandlerHealthResponse;
 
 export const zCreateProjectResponse = zProject;
+
+export const zGetProjectResponse = zProject;
 
 export const zGetProjectTeamsResponse = z.array(zProjectTeam);
 
@@ -170,13 +170,13 @@ export const zUpdateProjectTeamResponse = zProjectTeam;
 
 export const zGetProjectTeamResponse = zProjectTeam;
 
-export const zGetProjectTeamMembershipsResponse = z.array(zProjectTeamMembershipWithUser);
+export const zGetProjectTeamMembershipsResponse = z.array(
+  zProjectTeamMembershipWithUser
+);
 
 export const zCreateProjectTeamMembershipResponse = zProjectTeamMembership;
 
 export const zDeleteProjectTeamMembershipResponse = zProjectTeamMembership;
-
-export const zGetProjectResponse = zProject;
 
 export const zGetUserResponse = zUser;
 
@@ -185,5 +185,3 @@ export const zListUsersResponse = zPaginatedDataUser;
 export const zGetUserProjectsResponse = z.array(zProject);
 
 export const zGetUserTeamMembershipResponse = zProjectTeamMembership;
-
-export const zJoinWaitlistResponse = z.string();
