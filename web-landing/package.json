@@ -1,0 +1,27 @@
+{
+  "name": "web-landing",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@asyncstatus/ui": "workspace:*",
+    "@phosphor-icons/react": "2.1.7",
+    "@tailwindcss/postcss": "4.0.5",
+    "tailwindcss": "4.0.6",
+    "postcss": "8.5.2",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "next": "15.1.6"
+  },
+  "devDependencies": {
+    "typescript": "5.7.3",
+    "@types/node": "22.13.1",
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.3"
+  }
+}

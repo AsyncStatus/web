@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@import "@asyncstatus/ui/globals.css";
+@source "../../../node_modules/@asyncstatus/ui";
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    letter-spacing: -0.0425em;
+    font-family: var(--font-favorit), system-ui, sans-serif;
+  }
+}
+

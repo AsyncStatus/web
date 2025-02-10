@@ -3,6 +3,7 @@
   "private": true,
   "workspaces": [
     "web-app",
+    "web-landing",
     "packages/*"
   ],
   "devDependencies": {

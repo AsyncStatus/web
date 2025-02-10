@@ -6,7 +6,8 @@
   "exports": {
     "./components/*": "./src/components/ui/*",
     "./hooks/*": "./src/hooks/*",
-    "./lib/*": "./src/lib/*"
+    "./lib/*": "./src/lib/*",
+    "./globals.css": "./src/styles/globals.css"
   },
   "dependencies": {
     "@radix-ui/react-accessible-icon": "1.1.2",

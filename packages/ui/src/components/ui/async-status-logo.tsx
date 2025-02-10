@@ -1,4 +1,4 @@
-import { HTMLProps } from "react"
+import { HTMLProps } from "react";
 
 export function AsyncStatusLogo({
   pathClassName,
@@ -21,6 +21,6 @@ export function AsyncStatusLogo({
         fill="currentColor"
       />
     </svg>
-  )
+  );
 }
-AsyncStatusLogo.displayName = "AsyncStatusLogo"
+AsyncStatusLogo.displayName = "AsyncStatusLogo";
