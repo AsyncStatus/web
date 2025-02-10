@@ -6,11 +6,9 @@
     "web-app",
     "packages/*"
   ],
-  "dependencies": {
-    "@tanstack/react-router": "^1.102.0"
-  },
   "devDependencies": {
-    "@tanstack/router-devtools": "^1.102.0",
-    "@tanstack/router-plugin": "^1.102.0"
+    "@ianvs/prettier-plugin-sort-imports": "4.4.1",
+    "prettier-plugin-tailwindcss": "0.6.11",
+    "prettier": "3.5.0"
   }
 }

@@ -8,82 +8,199 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/about'
-import { Route as IndexImport } from './routes/index'
+import { Route as authLayoutImport } from './routes/(auth)/_layout'
+import { Route as ProjectSlugLayoutImport } from './routes/$projectSlug/_layout'
+import { Route as ProjectSlugLayoutIndexImport } from './routes/$projectSlug/_layout.index'
+import { Route as authLayoutLoginImport } from './routes/(auth)/_layout.login'
+
+// Create Virtual Routes
+
+const authImport = createFileRoute('/(auth)')()
+const ProjectSlugImport = createFileRoute('/$projectSlug')()
 
 // Create/Update Routes
 
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
+const authRoute = authImport.update({
+  id: '/(auth)',
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
+const ProjectSlugRoute = ProjectSlugImport.update({
+  id: '/$projectSlug',
+  path: '/$projectSlug',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const authLayoutRoute = authLayoutImport.update({
+  id: '/_layout',
+  getParentRoute: () => authRoute,
+} as any)
+
+const ProjectSlugLayoutRoute = ProjectSlugLayoutImport.update({
+  id: '/_layout',
+  getParentRoute: () => ProjectSlugRoute,
+} as any)
+
+const ProjectSlugLayoutIndexRoute = ProjectSlugLayoutIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => ProjectSlugLayoutRoute,
+} as any)
+
+const authLayoutLoginRoute = authLayoutLoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => authLayoutRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
+    '/$projectSlug': {
+      id: '/$projectSlug'
+      path: '/$projectSlug'
+      fullPath: '/$projectSlug'
+      preLoaderRoute: typeof ProjectSlugImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
+    '/$projectSlug/_layout': {
+      id: '/$projectSlug/_layout'
+      path: '/$projectSlug'
+      fullPath: '/$projectSlug'
+      preLoaderRoute: typeof ProjectSlugLayoutImport
+      parentRoute: typeof ProjectSlugRoute
+    }
+    '/(auth)': {
+      id: '/(auth)'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof authImport
       parentRoute: typeof rootRoute
+    }
+    '/(auth)/_layout': {
+      id: '/(auth)/_layout'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof authLayoutImport
+      parentRoute: typeof authRoute
+    }
+    '/(auth)/_layout/login': {
+      id: '/(auth)/_layout/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLayoutLoginImport
+      parentRoute: typeof authLayoutImport
+    }
+    '/$projectSlug/_layout/': {
+      id: '/$projectSlug/_layout/'
+      path: '/'
+      fullPath: '/$projectSlug/'
+      preLoaderRoute: typeof ProjectSlugLayoutIndexImport
+      parentRoute: typeof ProjectSlugLayoutImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface ProjectSlugLayoutRouteChildren {
+  ProjectSlugLayoutIndexRoute: typeof ProjectSlugLayoutIndexRoute
+}
+
+const ProjectSlugLayoutRouteChildren: ProjectSlugLayoutRouteChildren = {
+  ProjectSlugLayoutIndexRoute: ProjectSlugLayoutIndexRoute,
+}
+
+const ProjectSlugLayoutRouteWithChildren =
+  ProjectSlugLayoutRoute._addFileChildren(ProjectSlugLayoutRouteChildren)
+
+interface ProjectSlugRouteChildren {
+  ProjectSlugLayoutRoute: typeof ProjectSlugLayoutRouteWithChildren
+}
+
+const ProjectSlugRouteChildren: ProjectSlugRouteChildren = {
+  ProjectSlugLayoutRoute: ProjectSlugLayoutRouteWithChildren,
+}
+
+const ProjectSlugRouteWithChildren = ProjectSlugRoute._addFileChildren(
+  ProjectSlugRouteChildren,
+)
+
+interface authLayoutRouteChildren {
+  authLayoutLoginRoute: typeof authLayoutLoginRoute
+}
+
+const authLayoutRouteChildren: authLayoutRouteChildren = {
+  authLayoutLoginRoute: authLayoutLoginRoute,
+}
+
+const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
+  authLayoutRouteChildren,
+)
+
+interface authRouteChildren {
+  authLayoutRoute: typeof authLayoutRouteWithChildren
+}
+
+const authRouteChildren: authRouteChildren = {
+  authLayoutRoute: authLayoutRouteWithChildren,
+}
+
+const authRouteWithChildren = authRoute._addFileChildren(authRouteChildren)
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/$projectSlug': typeof ProjectSlugLayoutRouteWithChildren
+  '/': typeof authLayoutRouteWithChildren
+  '/login': typeof authLayoutLoginRoute
+  '/$projectSlug/': typeof ProjectSlugLayoutIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/$projectSlug': typeof ProjectSlugLayoutIndexRoute
+  '/': typeof authLayoutRouteWithChildren
+  '/login': typeof authLayoutLoginRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/$projectSlug': typeof ProjectSlugRouteWithChildren
+  '/$projectSlug/_layout': typeof ProjectSlugLayoutRouteWithChildren
+  '/(auth)': typeof authRouteWithChildren
+  '/(auth)/_layout': typeof authLayoutRouteWithChildren
+  '/(auth)/_layout/login': typeof authLayoutLoginRoute
+  '/$projectSlug/_layout/': typeof ProjectSlugLayoutIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths: '/$projectSlug' | '/' | '/login' | '/$projectSlug/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to: '/$projectSlug' | '/' | '/login'
+  id:
+    | '__root__'
+    | '/$projectSlug'
+    | '/$projectSlug/_layout'
+    | '/(auth)'
+    | '/(auth)/_layout'
+    | '/(auth)/_layout/login'
+    | '/$projectSlug/_layout/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
+  ProjectSlugRoute: typeof ProjectSlugRouteWithChildren
+  authRoute: typeof authRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
+  ProjectSlugRoute: ProjectSlugRouteWithChildren,
+  authRoute: authRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -96,15 +213,43 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/about"
+        "/$projectSlug",
+        "/(auth)"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
+    "/$projectSlug": {
+      "filePath": "$projectSlug",
+      "children": [
+        "/$projectSlug/_layout"
+      ]
     },
-    "/about": {
-      "filePath": "about.tsx"
+    "/$projectSlug/_layout": {
+      "filePath": "$projectSlug/_layout.tsx",
+      "parent": "/$projectSlug",
+      "children": [
+        "/$projectSlug/_layout/"
+      ]
+    },
+    "/(auth)": {
+      "filePath": "(auth)",
+      "children": [
+        "/(auth)/_layout"
+      ]
+    },
+    "/(auth)/_layout": {
+      "filePath": "(auth)/_layout.tsx",
+      "parent": "/(auth)",
+      "children": [
+        "/(auth)/_layout/login"
+      ]
+    },
+    "/(auth)/_layout/login": {
+      "filePath": "(auth)/_layout.login.tsx",
+      "parent": "/(auth)/_layout"
+    },
+    "/$projectSlug/_layout/": {
+      "filePath": "$projectSlug/_layout.index.tsx",
+      "parent": "/$projectSlug/_layout"
     }
   }
 }

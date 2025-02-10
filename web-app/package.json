@@ -5,24 +5,24 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prod-preview": "bun run build && bunx serve -s -l 5173 ./dist"
   },
   "dependencies": {
     "@asyncstatus/sdk": "workspace:*",
-    "@tailwindcss/vite": "^4.0.5",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
+    "@asyncstatus/ui": "workspace:*",
+    "@phosphor-icons/react": "2.1.7",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "tailwind-merge": "^3.0.1",
-    "tailwindcss": "^4.0.5",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss": "4.0.5",
+    "@tailwindcss/postcss": "4.0.5"
   },
   "devDependencies": {
     "@eslint/js": "9.20.0",
-    "@tailwindcss/postcss": "^4.0.5",
+    "@tailwindcss/vite": "4.0.5",
+    "@tanstack/react-query-devtools": "^5.66.0",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
     "@vitejs/plugin-react-swc": "3.8.0",
