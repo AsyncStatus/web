@@ -1,5 +1,5 @@
 import { AsyncStatusLogo } from "@asyncstatus/ui/components/async-status-logo.js";
-import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/(auth)/_layout")({
   component: RouteComponent,

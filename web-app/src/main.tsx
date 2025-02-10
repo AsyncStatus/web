@@ -18,33 +18,10 @@ import { SidebarTeamsSkeleton } from "./components/sidebar-teams";
 import { SidebarUserSkeleton } from "./components/sidebar-user";
 import { routeTree } from "./routeTree.gen";
 
-// const areQueryKeysEqual = (
-//   a: readonly unknown[],
-//   b: readonly unknown[]
-// ): boolean => {
-//   if (a.length !== b.length) return false;
-//   return a.every((val, idx) => {
-//     if (Array.isArray(val) && Array.isArray(b[idx])) {
-//       return areQueryKeysEqual(val, b[idx]);
-//     }
-//     return val === b[idx];
-//   });
-// };
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: (query) => {
-        // if (areQueryKeysEqual(getCurrentUserQueryKey(), query.queryKey)) {
-        //   return Infinity;
-        // }
-
-        // if (areQueryKeysEqual(getSessionQueryKey(), query.queryKey)) {
-        //   return Infinity;
-        // }
-
-        return 5 * 60 * 1000;
-      },
+      staleTime: 5 * 60 * 1000,
     },
   },
 });
