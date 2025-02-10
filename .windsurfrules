@@ -51,8 +51,7 @@ packages/
 ```
 
 ## Tech Stack
-- React
-- Tanstack Router
+- React with Tanstack Router, Tanstack Query, Vite and Bun
 - TypeScript
 - Tailwind CSS
 - Shadcn UI
