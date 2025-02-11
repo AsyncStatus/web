@@ -8,6 +8,7 @@ import (
 
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/joho/godotenv"
+	"github.com/stripe/stripe-go/v81"
 )
 
 type Config struct {
@@ -26,6 +27,9 @@ type Config struct {
 
 	AppHost     string `env:"APP_HOST" env-default:"localhost:3000"`
 	AppProtocol string `env:"APP_PROTOCOL" env-default:"http"`
+
+	StripeSecretKey            string `env:"STRIPE_SECRET_KEY"`
+	StripeSigningSecretWebhook string `env:"STRIPE_SIGNING_SECRET_WEBHOOK"`
 
 	ResendAPIKey string `env:"RESEND_API_KEY"`
 	SMTPAddr     string `env:"SMTP_ADDR" env-default:"0.0.0.0:1025"`
@@ -69,6 +73,7 @@ func MustNewConfig() *Config {
 	}
 
 	cfg.AppEnv = appEnv
+	stripe.Key = cfg.StripeSecretKey
 
 	return &cfg
 }

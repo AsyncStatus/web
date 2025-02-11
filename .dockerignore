@@ -1,0 +1,45 @@
+/node_modules/
+node_modules
+api
+Dockerfile*
+docker-compose*
+.dockerignore
+.git
+.gitignore
+README.md
+LICENSE
+.vscode
+Makefile
+helm-charts
+.editorconfig
+.idea
+coverage*
+
+# next.js
+/.next/
+.next
+dist
+out
+/out/
+/dist/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+/.env*
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

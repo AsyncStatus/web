@@ -19,6 +19,8 @@ create table if not exists "user".users (
 	id uuid not null primary key default uuid_generate_v4 (),
 	name varchar(255) not null,
 	email varchar(255) not null unique,
+	stripe_customer_id varchar(255),
+	stripe_subscription_id varchar(255),
 	avatar_url text,
 	referrer varchar(255),
 	created_at timestamptz not null default current_timestamp,
@@ -27,6 +29,9 @@ create table if not exists "user".users (
 	archived_at timestamptz,
 	approved_at timestamptz
 );
+
+create unique index if not exists user_email_idx on "user".users (email);
+create unique index if not exists user_stripe_customer_id_idx on "user".users (stripe_customer_id);
 
 create table if not exists "user".timezones (
 	id uuid not null primary key default uuid_generate_v4 (),

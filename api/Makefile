@@ -1,8 +1,8 @@
 proxy-prod-db:
-	fly proxy 15432:5432 -a asyncstatus-pg
+	fly proxy 15432:5432 -a as-pg
 
 proxy-dev-db:
-	fly proxy 10864:5432 -a dev-asyncstatus-pg
+	fly proxy 10864:5432 -a dev-as-pg
 
 generate-emails:
 	go run ./cmd/email/generate.go
@@ -29,7 +29,7 @@ seed-reset:
 	go run ./cmd/seed/main.go postgres dir reset
 
 set-prod-secrets-from-env:
-	cat .env.production | fly secrets import -a asyncstatus-web-api
+	cat .env.production | fly secrets import -a as-api
 
 set-dev-secrets-from-env:
-	cat .env.development | fly secrets import -a dev-asyncstatus-web-api
+	cat .env.development | fly secrets import -a dev-as-api

@@ -190,7 +190,7 @@ const common = {
   alt: "AsyncStatus App",
   width: 1300,
   height: 800,
-  unoptimized: false,
+  unoptimized: true,
   sizes: "100vw",
 } satisfies Omit<ImageProps, "src">;
 const commonLg = { ...common, width: 2666, height: 1500 } satisfies Omit<

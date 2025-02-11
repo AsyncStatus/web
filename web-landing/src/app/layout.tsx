@@ -1,6 +1,5 @@
 import "./globals.css";
 
-import type { PropsWithChildren } from "react";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
@@ -41,7 +40,7 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout(props: PropsWithChildren) {
+export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={favorit.variable}>{props.children}</body>

@@ -10,6 +10,7 @@ import (
 	projectteammembership "api/handler/project/membership"
 	projectteam "api/handler/project/team"
 	"api/handler/session"
+	internalstripe "api/handler/stripe"
 	"api/handler/user"
 	"api/internal/email"
 	"api/internal/log"
@@ -100,6 +101,7 @@ func main() {
 	projectHandler := project.NewHandler(baseHandlerDeps)
 	projectTeamHandler := projectteam.NewHandler(baseHandlerDeps)
 	projectTeamMembershipHandler := projectteammembership.NewHandler(baseHandlerDeps)
+	stripeHandler := internalstripe.NewHandler(baseHandlerDeps)
 
 	r := chi.NewRouter()
 
@@ -116,6 +118,7 @@ func main() {
 	}
 
 	r.Mount("/health", healthHandler.Router())
+	r.Mount("/stripe", stripeHandler.Router())
 	r.Route("/users", func(r chi.Router) {
 		r.Mount("/", userHandler.Router())
 	})

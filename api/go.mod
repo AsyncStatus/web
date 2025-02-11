@@ -25,6 +25,7 @@ require (
 	github.com/redis/go-redis/v9 v9.7.0
 	github.com/resend/resend-go/v2 v2.15.0
 	github.com/slack-go/slack v0.16.0
+	github.com/stripe/stripe-go/v81 v81.3.1
 	github.com/swaggo/http-swagger/example/go-chi v0.0.0-20240815064334-3a7ae3083475
 	github.com/swaggo/swag v1.16.4
 	go.uber.org/zap v1.27.0
