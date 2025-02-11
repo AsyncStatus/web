@@ -12,7 +12,7 @@ import { authQueryOptions } from "../../auth";
 export const Route = createFileRoute("/(auth)/_layout")({
   validateSearch: z.object({ redirect: z.string().optional().catch("") }),
   beforeLoad: ({ context: { queryClient } }) => {
-    queryClient
+    return queryClient
       .ensureQueryData(authQueryOptions())
       .then(() => {
         throw redirect({ to: "/" });
