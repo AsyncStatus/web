@@ -22,6 +22,13 @@ primary_region = 'lhr'
     hard_limit = 350
     soft_limit = 300
 
+  [[http_service.checks]]
+    interval = '5s'
+    timeout = '10s'
+    grace_period = '10s'
+    method = 'GET'
+    path = '/health'
+
   [http_service.http_options]
     h2_backend = false
     idle_timeout = 600

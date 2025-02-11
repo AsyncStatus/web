@@ -26,13 +26,14 @@ FROM base AS prerelease
 COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
 
-ARG NEXT_PUBLIC_STRIPE_LINK
+ARG VITE_WEB_API_URL
+ARG VITE_WEB_MARKETING_URL
 ENV NODE_ENV=production
-RUN cd /usr/src/app/web-landing && bun run build
+RUN cd /usr/src/app/web-app && bun run build
 
 FROM nginx:alpine AS release
 
-COPY --from=prerelease /usr/src/app/web-landing/out /usr/share/nginx/html
+COPY --from=prerelease /usr/src/app/web-app/dist /usr/share/nginx/html
 COPY --from=prerelease /usr/src/app/nginx.conf /etc/nginx/conf.d/default.conf
 
 CMD ["nginx", "-g", "daemon off;"]

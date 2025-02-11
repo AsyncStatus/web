@@ -95,7 +95,7 @@ func Slowdown(minDelay time.Duration, maxDelay time.Duration) func(next http.Han
 }
 
 func Cors(cfg *config.Config) func(next http.Handler) http.Handler {
-	allowedOrigins := []string{"https://app.asyncstatus.com", "https://dev.app.asyncstatus.com"}
+	allowedOrigins := []string{"https://app.asyncstatus.com", "https://app.dev.asyncstatus.com"}
 	return cors.Handler(cors.Options{
 		AllowOriginFunc: func(r *http.Request, origin string) bool {
 			if r.URL.Path == "/health" {
