@@ -1,10 +1,21 @@
+import { AsyncStatusLogo } from "@asyncstatus/ui/components/async-status-logo.js";
 import { Button } from "@asyncstatus/ui/components/button.js";
-import { SimpleHeader } from "@asyncstatus/ui/components/simple-header.js";
+import { Link } from "@tanstack/react-router";
 
 export function NotFound() {
   return (
     <>
-      <SimpleHeader href={import.meta.env.VITE_WEB_MARKETING_URL} />
+      <header className="flex items-center justify-center p-6">
+        <nav>
+          <Link
+            className="flex items-center gap-0.5"
+            to="/"
+            aria-label="AsyncStatus Home"
+          >
+            <AsyncStatusLogo className="h-4 w-auto" />
+          </Link>
+        </nav>
+      </header>
 
       <main className="container mx-auto flex flex-col items-center justify-center pt-32">
         <section
@@ -14,7 +25,7 @@ export function NotFound() {
           <div className="text-center">
             <h1
               id="not-found-title"
-              className="mt-4 mb-4 text-5xl font-semibold text-balance"
+              className="mb-4 mt-4 text-balance text-5xl font-semibold"
             >
               Not found
             </h1>
