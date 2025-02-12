@@ -92,6 +92,12 @@ export type SignInEmailBody = {
   password: string;
 };
 
+export type SignUpTokenBody = {
+  password: string;
+  timezone: string;
+  token: string;
+};
+
 export type UpdateProjectTeamBody = {
   emoji?: string | null;
   name: string;
@@ -106,16 +112,18 @@ export type User = {
   id: string;
   name: string;
   referrer: string | null;
+  stripe_customer_id: string | null;
+  stripe_subscription_id: string | null;
   updated_at: string | null;
   verified_at: string | null;
 };
 
-export type HealthhandlerHealthResponse = {
+export type HealthHealthResponse = {
   postgres_ping?: string;
   redis_ping?: string;
 };
 
-export type ProjectteamhandlerCreateProjectTeamBody = {
+export type ProjectteamCreateProjectTeamBody = {
   emoji?: string | null;
   name: string;
 };
@@ -246,6 +254,39 @@ export type GetCurrentUserResponses = {
 export type GetCurrentUserResponse =
   GetCurrentUserResponses[keyof GetCurrentUserResponses];
 
+export type SignUpTokenData = {
+  /**
+   * Sign up token body
+   */
+  body: SignUpTokenBody;
+  path?: never;
+  query?: never;
+  url: "/auth/token/sign-up";
+};
+
+export type SignUpTokenErrors = {
+  /**
+   * Unauthorized
+   */
+  401: AsError;
+  /**
+   * Internal Server Error
+   */
+  500: AsError;
+};
+
+export type SignUpTokenError = SignUpTokenErrors[keyof SignUpTokenErrors];
+
+export type SignUpTokenResponses = {
+  /**
+   * OK
+   */
+  200: Session;
+};
+
+export type SignUpTokenResponse =
+  SignUpTokenResponses[keyof SignUpTokenResponses];
+
 export type GetHealthData = {
   body?: never;
   path?: never;
@@ -270,7 +311,7 @@ export type GetHealthResponses = {
   /**
    * OK
    */
-  200: HealthhandlerHealthResponse;
+  200: HealthHealthResponse;
 };
 
 export type GetHealthResponse = GetHealthResponses[keyof GetHealthResponses];
@@ -304,46 +345,16 @@ export type CreateProjectResponses = {
 export type CreateProjectResponse =
   CreateProjectResponses[keyof CreateProjectResponses];
 
-export type GetProjectData = {
-  body?: never;
-  path: {
-    /**
-     * Project slug
-     */
-    project_slug: string;
-  };
-  query?: never;
-  url: "/projects/{project_slug}";
-};
-
-export type GetProjectErrors = {
-  /**
-   * Bad Request
-   */
-  400: AsError;
-};
-
-export type GetProjectError = GetProjectErrors[keyof GetProjectErrors];
-
-export type GetProjectResponses = {
-  /**
-   * OK
-   */
-  200: Project;
-};
-
-export type GetProjectResponse = GetProjectResponses[keyof GetProjectResponses];
-
 export type GetProjectTeamsData = {
   body?: never;
   path: {
     /**
      * Project slug
      */
-    project_slug: string;
+    projectSlug: string;
   };
   query?: never;
-  url: "/projects/{project_slug}/teams";
+  url: "/projects/{projectSlug}/teams";
 };
 
 export type GetProjectTeamsErrors = {
@@ -378,15 +389,15 @@ export type CreateProjectTeamData = {
   /**
    * Create project team body
    */
-  body: ProjectteamhandlerCreateProjectTeamBody;
+  body: ProjectteamCreateProjectTeamBody;
   path: {
     /**
      * Project slug
      */
-    project_slug: string;
+    projectSlug: string;
   };
   query?: never;
-  url: "/projects/{project_slug}/teams";
+  url: "/projects/{projectSlug}/teams";
 };
 
 export type CreateProjectTeamErrors = {
@@ -416,6 +427,171 @@ export type CreateProjectTeamResponses = {
 
 export type CreateProjectTeamResponse =
   CreateProjectTeamResponses[keyof CreateProjectTeamResponses];
+
+export type GetProjectTeamData = {
+  body?: never;
+  path: {
+    /**
+     * Project slug
+     */
+    projectSlug: string;
+    /**
+     * Team slug
+     */
+    teamSlug: string;
+  };
+  query?: never;
+  url: "/projects/{projectSlug}/teams/{teamSlug}";
+};
+
+export type GetProjectTeamErrors = {
+  /**
+   * Bad Request
+   */
+  400: AsError;
+  /**
+   * Unauthorized
+   */
+  401: AsError;
+  /**
+   * Internal Server Error
+   */
+  500: AsError;
+};
+
+export type GetProjectTeamError =
+  GetProjectTeamErrors[keyof GetProjectTeamErrors];
+
+export type GetProjectTeamResponses = {
+  /**
+   * OK
+   */
+  200: ProjectTeam;
+};
+
+export type GetProjectTeamResponse =
+  GetProjectTeamResponses[keyof GetProjectTeamResponses];
+
+export type GetProjectTeamMembershipsData = {
+  body?: never;
+  path: {
+    /**
+     * Project slug
+     */
+    projectSlug: string;
+    /**
+     * Team slug
+     */
+    teamSlug: string;
+  };
+  query?: never;
+  url: "/projects/{projectSlug}/teams/{teamSlug}/memberships";
+};
+
+export type GetProjectTeamMembershipsErrors = {
+  /**
+   * Bad Request
+   */
+  400: AsError;
+  /**
+   * Unauthorized
+   */
+  401: AsError;
+  /**
+   * Internal Server Error
+   */
+  500: AsError;
+};
+
+export type GetProjectTeamMembershipsError =
+  GetProjectTeamMembershipsErrors[keyof GetProjectTeamMembershipsErrors];
+
+export type GetProjectTeamMembershipsResponses = {
+  /**
+   * OK
+   */
+  200: Array<ProjectTeamMembershipWithUser>;
+};
+
+export type GetProjectTeamMembershipsResponse =
+  GetProjectTeamMembershipsResponses[keyof GetProjectTeamMembershipsResponses];
+
+export type CreateProjectTeamMembershipData = {
+  /**
+   * Body
+   */
+  body: CreateProjectTeamMembershipBody;
+  path: {
+    /**
+     * Project slug
+     */
+    projectSlug: string;
+    /**
+     * Team slug
+     */
+    teamSlug: string;
+  };
+  query?: never;
+  url: "/projects/{projectSlug}/teams/{teamSlug}/memberships";
+};
+
+export type CreateProjectTeamMembershipErrors = {
+  /**
+   * Bad Request
+   */
+  400: AsError;
+  /**
+   * Unauthorized
+   */
+  401: AsError;
+  /**
+   * Internal Server Error
+   */
+  500: AsError;
+};
+
+export type CreateProjectTeamMembershipError =
+  CreateProjectTeamMembershipErrors[keyof CreateProjectTeamMembershipErrors];
+
+export type CreateProjectTeamMembershipResponses = {
+  /**
+   * OK
+   */
+  200: ProjectTeamMembership;
+};
+
+export type CreateProjectTeamMembershipResponse =
+  CreateProjectTeamMembershipResponses[keyof CreateProjectTeamMembershipResponses];
+
+export type GetProjectData = {
+  body?: never;
+  path: {
+    /**
+     * Project slug
+     */
+    project_slug: string;
+  };
+  query?: never;
+  url: "/projects/{project_slug}";
+};
+
+export type GetProjectErrors = {
+  /**
+   * Bad Request
+   */
+  400: AsError;
+};
+
+export type GetProjectError = GetProjectErrors[keyof GetProjectErrors];
+
+export type GetProjectResponses = {
+  /**
+   * OK
+   */
+  200: Project;
+};
+
+export type GetProjectResponse = GetProjectResponses[keyof GetProjectResponses];
 
 export type UpdateProjectTeamData = {
   /**
@@ -459,141 +635,6 @@ export type UpdateProjectTeamResponses = {
 
 export type UpdateProjectTeamResponse =
   UpdateProjectTeamResponses[keyof UpdateProjectTeamResponses];
-
-export type GetProjectTeamData = {
-  body?: never;
-  path: {
-    /**
-     * Project slug
-     */
-    project_slug: string;
-    /**
-     * Team slug
-     */
-    team_slug: string;
-  };
-  query?: never;
-  url: "/projects/{project_slug}/teams/{team_slug}";
-};
-
-export type GetProjectTeamErrors = {
-  /**
-   * Bad Request
-   */
-  400: AsError;
-  /**
-   * Unauthorized
-   */
-  401: AsError;
-  /**
-   * Internal Server Error
-   */
-  500: AsError;
-};
-
-export type GetProjectTeamError =
-  GetProjectTeamErrors[keyof GetProjectTeamErrors];
-
-export type GetProjectTeamResponses = {
-  /**
-   * OK
-   */
-  200: ProjectTeam;
-};
-
-export type GetProjectTeamResponse =
-  GetProjectTeamResponses[keyof GetProjectTeamResponses];
-
-export type GetProjectTeamMembershipsData = {
-  body?: never;
-  path: {
-    /**
-     * Project slug
-     */
-    project_slug: string;
-    /**
-     * Team slug
-     */
-    team_slug: string;
-  };
-  query?: never;
-  url: "/projects/{project_slug}/teams/{team_slug}/memberships";
-};
-
-export type GetProjectTeamMembershipsErrors = {
-  /**
-   * Bad Request
-   */
-  400: AsError;
-  /**
-   * Unauthorized
-   */
-  401: AsError;
-  /**
-   * Internal Server Error
-   */
-  500: AsError;
-};
-
-export type GetProjectTeamMembershipsError =
-  GetProjectTeamMembershipsErrors[keyof GetProjectTeamMembershipsErrors];
-
-export type GetProjectTeamMembershipsResponses = {
-  /**
-   * OK
-   */
-  200: Array<ProjectTeamMembershipWithUser>;
-};
-
-export type GetProjectTeamMembershipsResponse =
-  GetProjectTeamMembershipsResponses[keyof GetProjectTeamMembershipsResponses];
-
-export type CreateProjectTeamMembershipData = {
-  /**
-   * Body
-   */
-  body: CreateProjectTeamMembershipBody;
-  path: {
-    /**
-     * Project slug
-     */
-    project_slug: string;
-    /**
-     * Team slug
-     */
-    team_slug: string;
-  };
-  query?: never;
-  url: "/projects/{project_slug}/teams/{team_slug}/memberships";
-};
-
-export type CreateProjectTeamMembershipErrors = {
-  /**
-   * Bad Request
-   */
-  400: AsError;
-  /**
-   * Unauthorized
-   */
-  401: AsError;
-  /**
-   * Internal Server Error
-   */
-  500: AsError;
-};
-
-export type CreateProjectTeamMembershipError =
-  CreateProjectTeamMembershipErrors[keyof CreateProjectTeamMembershipErrors];
-
-export type CreateProjectTeamMembershipResponses = {
-  /**
-   * OK
-   */
-  200: ProjectTeamMembership;
-};
-
-export type CreateProjectTeamMembershipResponse =
-  CreateProjectTeamMembershipResponses[keyof CreateProjectTeamMembershipResponses];
 
 export type DeleteProjectTeamMembershipData = {
   body?: never;
@@ -695,12 +736,12 @@ export type GetUserProjectsData = {
     /**
      * User ID
      */
-    user_id: string;
+    userId: string;
   };
   query?: {
     limit?: number;
   };
-  url: "/users/{user_id}/projects";
+  url: "/users/{userId}/projects";
 };
 
 export type GetUserProjectsErrors = {
@@ -733,18 +774,18 @@ export type GetUserTeamMembershipData = {
     /**
      * User ID
      */
-    user_id: string;
+    userId: string;
     /**
      * Team slug
      */
-    team_slug: string;
+    teamSlug: string;
     /**
      * Project slug
      */
-    project_slug: string;
+    projectSlug: string;
   };
   query?: never;
-  url: "/users/{user_id}/projects/{project_slug}/memberships/{team_slug}";
+  url: "/users/{userId}/projects/{projectSlug}/memberships/{teamSlug}";
 };
 
 export type GetUserTeamMembershipErrors = {

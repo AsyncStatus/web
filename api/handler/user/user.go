@@ -114,12 +114,12 @@ func (h *Handler) GetUserProjects(w http.ResponseWriter, r *http.Request) (*asre
 //	@Tags		user
 //	@Accept		json
 //	@Produce	json
-//	@Param		userId			path		string	true	"User ID"
-//	@Param		teamSlug		path		string	true	"Team slug"
+//	@Param		userId		path		string	true	"User ID"
+//	@Param		teamSlug	path		string	true	"Team slug"
 //	@Param		projectSlug	path		string	true	"Project slug"
-//	@Success	200				{object}	repository.ProjectTeamMembership
-//	@Failure	401				{object}	aserr.ASError
-//	@Failure	500				{object}	aserr.ASError
+//	@Success	200			{object}	repository.ProjectTeamMembership
+//	@Failure	401			{object}	aserr.ASError
+//	@Failure	500			{object}	aserr.ASError
 //	@Router		/users/{userId}/projects/{projectSlug}/memberships/{teamSlug} [get]
 func (h *Handler) GetUserTeamMembership(w http.ResponseWriter, r *http.Request) (*asres.Response[*repository.ProjectTeamMembership], error) {
 	userID, err := uuid.Parse(chi.URLParam(r, "userId"))

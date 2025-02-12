@@ -27,6 +27,7 @@ import {
   listUsers,
   logout,
   signInEmail,
+  signUpToken,
   updateProjectTeam,
   type Options,
 } from "../sdk.gen";
@@ -61,6 +62,9 @@ import type {
   SignInEmailData,
   SignInEmailError,
   SignInEmailResponse,
+  SignUpTokenData,
+  SignUpTokenError,
+  SignUpTokenResponse,
   UpdateProjectTeamData,
   UpdateProjectTeamError,
   UpdateProjectTeamResponse,
@@ -197,6 +201,45 @@ export const getCurrentUserOptions = (
   });
 };
 
+export const signUpTokenQueryKey = (options: Options<SignUpTokenData>) => [
+  createQueryKey("signUpToken", options),
+];
+
+export const signUpTokenOptions = (options: Options<SignUpTokenData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await signUpToken({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: signUpTokenQueryKey(options),
+  });
+};
+
+export const signUpTokenMutation = (
+  options?: Partial<Options<SignUpTokenData>>
+) => {
+  const mutationOptions: UseMutationOptions<
+    SignUpTokenResponse,
+    SignUpTokenError,
+    Options<SignUpTokenData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await signUpToken({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const getHealthQueryKey = (options?: Options<GetHealthData>) => [
   createQueryKey("getHealth", options),
 ];
@@ -255,25 +298,6 @@ export const createProjectMutation = (
   return mutationOptions;
 };
 
-export const getProjectQueryKey = (options: Options<GetProjectData>) => [
-  createQueryKey("getProject", options),
-];
-
-export const getProjectOptions = (options: Options<GetProjectData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await getProject({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: getProjectQueryKey(options),
-  });
-};
-
 export const getProjectTeamsQueryKey = (
   options: Options<GetProjectTeamsData>
 ) => [createQueryKey("getProjectTeams", options)];
@@ -326,26 +350,6 @@ export const createProjectTeamMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await createProjectTeam({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const updateProjectTeamMutation = (
-  options?: Partial<Options<UpdateProjectTeamData>>
-) => {
-  const mutationOptions: UseMutationOptions<
-    UpdateProjectTeamResponse,
-    UpdateProjectTeamError,
-    Options<UpdateProjectTeamData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await updateProjectTeam({
         ...options,
         ...localOptions,
         throwOnError: true,
@@ -427,6 +431,45 @@ export const createProjectTeamMembershipMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await createProjectTeamMembership({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const getProjectQueryKey = (options: Options<GetProjectData>) => [
+  createQueryKey("getProject", options),
+];
+
+export const getProjectOptions = (options: Options<GetProjectData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getProject({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getProjectQueryKey(options),
+  });
+};
+
+export const updateProjectTeamMutation = (
+  options?: Partial<Options<UpdateProjectTeamData>>
+) => {
+  const mutationOptions: UseMutationOptions<
+    UpdateProjectTeamResponse,
+    UpdateProjectTeamError,
+    Options<UpdateProjectTeamData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await updateProjectTeam({
         ...options,
         ...localOptions,
         throwOnError: true,

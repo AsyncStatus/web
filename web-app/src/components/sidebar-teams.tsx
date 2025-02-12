@@ -24,7 +24,7 @@ import { Link } from "@tanstack/react-router";
 export function SidebarTeams({ projectSlug }: { projectSlug: string }) {
   const { isMobile } = useSidebar();
   const teams = useSuspenseQuery(
-    getProjectTeamsOptions({ path: { project_slug: projectSlug } })
+    getProjectTeamsOptions({ path: { projectSlug: projectSlug } })
   );
 
   return (

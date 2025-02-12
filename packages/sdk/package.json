@@ -7,8 +7,8 @@
     "./*": "./gen/*.ts"
   },
   "scripts": {
-    "dev": "./node_modules/.bin/openapi-ts --watch",
-    "build": "./node_modules/.bin/openapi-ts && ./scripts/after-build.sh"
+    "dev": "openapi-ts --watch",
+    "build": "openapi-ts && ./scripts/after-build.sh"
   },
   "dependencies": {
     "@hey-api/client-fetch": "0.8.1",

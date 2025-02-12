@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_layout")({
 
     const projects = await queryClient.ensureQueryData(
       getUserProjectsOptions({
-        path: { user_id: user!.id },
+        path: { userId: user!.id },
         query: { limit: 100 },
       })
     );

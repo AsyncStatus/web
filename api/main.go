@@ -5,6 +5,7 @@ import (
 	"api/config/env"
 	"api/handler"
 	authemail "api/handler/auth/email"
+	authtoken "api/handler/auth/token"
 	"api/handler/health"
 	"api/handler/project"
 	projectteammembership "api/handler/project/membership"
@@ -95,6 +96,10 @@ func main() {
 		authemail.WithBaseHandlerDeps(baseHandlerDeps),
 		authemail.WithAuthService(authService),
 	)
+	authtokenHandler := authtoken.NewHandler(
+		authtoken.WithBaseHandlerDeps(baseHandlerDeps),
+		authtoken.WithAuthService(authService),
+	)
 	healthHandler := health.NewHandler(baseHandlerDeps)
 	userHandler := user.NewHandler(baseHandlerDeps)
 	sessionHandler := session.NewHandler(baseHandlerDeps)
@@ -124,6 +129,7 @@ func main() {
 	})
 	r.Route("/auth", func(r chi.Router) {
 		r.Mount("/email", authemailHandler.Router())
+		r.Mount("/token", authtokenHandler.Router())
 		r.Mount("/session", sessionHandler.Router())
 	})
 	r.Route("/projects", func(r chi.Router) {

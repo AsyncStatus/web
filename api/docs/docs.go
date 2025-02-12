@@ -164,6 +164,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/auth/token/sign-up": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "signs up user by token",
+                "operationId": "sign-up-token",
+                "parameters": [
+                    {
+                        "description": "Sign up token body",
+                        "name": "sign_up_token_body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SignUpTokenBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Session"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
         "/health": {
             "get": {
                 "tags": [
@@ -175,7 +221,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/healthhandler.HealthResponse"
+                            "$ref": "#/definitions/health.HealthResponse"
                         }
                     },
                     "500": {
@@ -233,45 +279,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/projects/{project_slug}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "project"
-                ],
-                "summary": "get project",
-                "operationId": "get-project",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Project slug",
-                        "name": "project_slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/Project"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/ASError"
-                        }
-                    }
-                }
-            }
-        },
-        "/projects/{project_slug}/teams": {
+        "/projects/{projectSlug}/teams": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -288,7 +296,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Project slug",
-                        "name": "project_slug",
+                        "name": "projectSlug",
                         "in": "path",
                         "required": true
                     }
@@ -342,13 +350,13 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/projectteamhandler.CreateProjectTeamBody"
+                            "$ref": "#/definitions/projectteam.CreateProjectTeamBody"
                         }
                     },
                     {
                         "type": "string",
                         "description": "Project slug",
-                        "name": "project_slug",
+                        "name": "projectSlug",
                         "in": "path",
                         "required": true
                     }
@@ -381,66 +389,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/projects/{project_slug}/teams/{id}": {
-            "put": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "projectteam"
-                ],
-                "summary": "update project team",
-                "operationId": "update-project-team",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Project team ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Project team data",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/UpdateProjectTeamBody"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ProjectTeam"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/ASError"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/ASError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/ASError"
-                        }
-                    }
-                }
-            }
-        },
-        "/projects/{project_slug}/teams/{team_slug}": {
+        "/projects/{projectSlug}/teams/{teamSlug}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -457,14 +406,14 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Project slug",
-                        "name": "project_slug",
+                        "name": "projectSlug",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Team slug",
-                        "name": "team_slug",
+                        "name": "teamSlug",
                         "in": "path",
                         "required": true
                     }
@@ -497,7 +446,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/projects/{project_slug}/teams/{team_slug}/memberships": {
+        "/projects/{projectSlug}/teams/{teamSlug}/memberships": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -514,14 +463,14 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Project slug",
-                        "name": "project_slug",
+                        "name": "projectSlug",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Team slug",
-                        "name": "team_slug",
+                        "name": "teamSlug",
                         "in": "path",
                         "required": true
                     }
@@ -581,14 +530,14 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Project slug",
-                        "name": "project_slug",
+                        "name": "projectSlug",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Team slug",
-                        "name": "team_slug",
+                        "name": "teamSlug",
                         "in": "path",
                         "required": true
                     }
@@ -598,6 +547,103 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/ProjectTeamMembership"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{project_slug}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "get project",
+                "operationId": "get-project",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Project slug",
+                        "name": "project_slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Project"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ASError"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{project_slug}/teams/{id}": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "projectteam"
+                ],
+                "summary": "update project team",
+                "operationId": "update-project-team",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Project team ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Project team data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateProjectTeamBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ProjectTeam"
                         }
                     },
                     "400": {
@@ -772,7 +818,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/{user_id}/projects": {
+        "/users/{userId}/projects": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -789,7 +835,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "User ID",
-                        "name": "user_id",
+                        "name": "userId",
                         "in": "path",
                         "required": true
                     },
@@ -826,7 +872,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/{user_id}/projects/{project_slug}/memberships/{team_slug}": {
+        "/users/{userId}/projects/{projectSlug}/memberships/{teamSlug}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -843,21 +889,21 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "User ID",
-                        "name": "user_id",
+                        "name": "userId",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Team slug",
-                        "name": "team_slug",
+                        "name": "teamSlug",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "Project slug",
-                        "name": "project_slug",
+                        "name": "projectSlug",
                         "in": "path",
                         "required": true
                     }
@@ -1221,6 +1267,27 @@ const docTemplate = `{
                 }
             }
         },
+        "SignUpTokenBody": {
+            "type": "object",
+            "required": [
+                "password",
+                "timezone",
+                "token"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 8
+                },
+                "timezone": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
         "UpdateProjectTeamBody": {
             "type": "object",
             "required": [
@@ -1249,6 +1316,8 @@ const docTemplate = `{
                 "id",
                 "name",
                 "referrer",
+                "stripe_customer_id",
+                "stripe_subscription_id",
                 "updated_at",
                 "verified_at"
             ],
@@ -1282,6 +1351,14 @@ const docTemplate = `{
                     "type": "string",
                     "x-nullable": true
                 },
+                "stripe_customer_id": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "stripe_subscription_id": {
+                    "type": "string",
+                    "x-nullable": true
+                },
                 "updated_at": {
                     "type": "string",
                     "x-nullable": true
@@ -1292,7 +1369,7 @@ const docTemplate = `{
                 }
             }
         },
-        "healthhandler.HealthResponse": {
+        "health.HealthResponse": {
             "type": "object",
             "properties": {
                 "postgres_ping": {
@@ -1303,7 +1380,7 @@ const docTemplate = `{
                 }
             }
         },
-        "projectteamhandler.CreateProjectTeamBody": {
+        "projectteam.CreateProjectTeamBody": {
             "type": "object",
             "required": [
                 "name"

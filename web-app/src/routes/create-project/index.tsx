@@ -5,6 +5,15 @@ import {
 import { CreateProjectBody, Project } from "@asyncstatus/sdk/types.gen";
 import { zCreateProjectBody } from "@asyncstatus/sdk/zod.gen";
 import { Button } from "@asyncstatus/ui/components/button.js";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@asyncstatus/ui/components/form.js";
+import { Input } from "@asyncstatus/ui/components/input.js";
 import { SimpleLayout } from "@asyncstatus/ui/components/simple-layout.js";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -35,7 +44,7 @@ function RouteComponent() {
     onSuccess: (data) => {
       queryClient.setQueryData(
         getUserProjectsQueryKey({
-          path: { user_id: user.data!.id },
+          path: { userId: user.data!.id },
           query: { limit: 100 },
         }),
         (projects: Project[]) => [...(projects ?? []), data]
@@ -49,24 +58,41 @@ function RouteComponent() {
 
   return (
     <SimpleLayout href={import.meta.env.VITE_WEB_MARKETING_URL}>
-      <form
-        onSubmit={createProjectForm.handleSubmit((values) => {
-          createProject.mutate({ body: values });
-        })}
-      >
-        <div>
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            id="name"
-            autoCapitalize="none"
-            autoComplete="name"
-            autoCorrect="off"
-            {...createProjectForm.register("name")}
+      <Form {...createProjectForm}>
+        <form
+          className="mx-auto flex max-w-[230px] flex-col items-center gap-4"
+          onSubmit={createProjectForm.handleSubmit((values) => {
+            createProject.mutate({ body: values });
+          })}
+        >
+          <h1 className="mb-6 text-xl font-medium">Create project</h1>
+
+          <FormField
+            control={createProjectForm.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Project name</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    autoCapitalize="none"
+                    autoComplete="name"
+                    autoCorrect="off"
+                    placeholder="Apple Inc."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-        <Button type="submit">Create Project</Button>
-      </form>
+
+          <Button type="submit" className="w-full">
+            Create Project
+          </Button>
+        </form>
+      </Form>
     </SimpleLayout>
   );
 }

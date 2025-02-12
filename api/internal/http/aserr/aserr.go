@@ -114,6 +114,22 @@ var (
 		"ASE-404",
 	)
 
+	ErrVerificationTokenExpired = NewASError(
+		errors.New("Verification token expired"),
+		"Verification token expired",
+		"",
+		http.StatusNotFound, // 404
+		"ASE-404/verification-token-expired",
+	)
+
+	ErrVerificationTokenInvalid = NewASError(
+		errors.New("Invalid verification code"),
+		"Invalid verification code",
+		"",
+		http.StatusNotFound, // 404
+		"ASE-404/verification-code-invalid",
+	)
+
 	ErrUserNotFound = NewASError(
 		errors.New("User not found"),
 		"User not found",

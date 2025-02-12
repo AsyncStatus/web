@@ -1,0 +1,23 @@
+<mjml>
+  <mj-include path="./head.mjml" />
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-include path="./logo.mjml" />
+        <mj-spacer height="40px"></mj-spacer>
+        <mj-text font-size="26px" font-weight="600">Hi {{ .Name }},</mj-text>
+        <mj-text font-size="20px">We're excited that you're joining our private beta. <br />Create your account by clicking the link below.</mj-text>
+        <mj-spacer height="40px"></mj-spacer>
+        <mj-button background-color="#0d54d8" color="#ffffff" border-radius="6px" font-size="18px" width="100%" font-weight='700' href="{{ .CreateAccountURL }}">Create account</mj-button>
+        <mj-text font-size="14px" color="#a3a3a3" align='center'>This link will only be valid for the next 24 hours.</mj-text>
+        <mj-spacer height="60px"></mj-spacer>
+        <mj-text font-size="20px">We’d love to hear what use case you’re focusing on. Your feedback helps us tailor the product to your needs, and early contributors may enjoy discounted rates and other benefits when we launch.</mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text align='left' font-size="20px" align="center"><a href="https://asyncstatus.com" style="color: #1A1A1A; text-decoration: none;">Feel free to reply to this email,<br /> <span style="font-size:16px;color:#a3a3a3;">— The AsyncTeam</span></a></mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

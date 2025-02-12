@@ -35,7 +35,7 @@ export function ProjectSelect(props: { projectSlug: string }) {
   const projects = useSuspenseQuery(
     getUserProjectsOptions({
       query: { limit: 100 },
-      path: { user_id: user.data!.id },
+      path: { userId: user.data!.id },
     })
   );
   const activeProject = useMemo(
@@ -50,7 +50,7 @@ export function ProjectSelect(props: { projectSlug: string }) {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="h-auto p-1 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground h-auto p-1"
             >
               <Avatar className="size-8">
                 <AvatarImage
@@ -80,7 +80,7 @@ export function ProjectSelect(props: { projectSlug: string }) {
             side={isMobile ? "bottom" : "right"}
             sideOffset={4}
           >
-            <DropdownMenuLabel className="text-xs text-muted-foreground">
+            <DropdownMenuLabel className="text-muted-foreground text-xs">
               Projects
             </DropdownMenuLabel>
 
@@ -113,7 +113,7 @@ export function ProjectSelect(props: { projectSlug: string }) {
                       <span className="truncate font-semibold">
                         {project.name}
                       </span>
-                      <span className="truncate text-xs text-muted-foreground">
+                      <span className="text-muted-foreground truncate text-xs">
                         {upperFirst(project.plan)}
                       </span>
                     </div>
@@ -125,11 +125,11 @@ export function ProjectSelect(props: { projectSlug: string }) {
             <DropdownMenuSeparator />
 
             <DropdownMenuItem className="gap-2 p-2">
-              <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+              <div className="bg-background flex size-6 items-center justify-center rounded-md border">
                 <Plus className="size-4" />
               </div>
 
-              <div className="font-medium text-muted-foreground">
+              <div className="text-muted-foreground font-medium">
                 Create project
               </div>
             </DropdownMenuItem>

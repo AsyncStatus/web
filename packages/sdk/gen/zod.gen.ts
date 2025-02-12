@@ -37,6 +37,8 @@ export const zPaginatedDataUser = z.object({
       id: z.string(),
       name: z.string(),
       referrer: z.union([z.string(), z.null()]),
+      stripe_customer_id: z.union([z.string(), z.null()]),
+      stripe_subscription_id: z.union([z.string(), z.null()]),
       updated_at: z.union([z.string(), z.null()]),
       verified_at: z.union([z.string(), z.null()]),
     })
@@ -91,6 +93,8 @@ export const zProjectTeamMembershipWithUser = z.object({
     id: z.string(),
     name: z.string(),
     referrer: z.union([z.string(), z.null()]),
+    stripe_customer_id: z.union([z.string(), z.null()]),
+    stripe_subscription_id: z.union([z.string(), z.null()]),
     updated_at: z.union([z.string(), z.null()]),
     verified_at: z.union([z.string(), z.null()]),
   }),
@@ -118,6 +122,12 @@ export const zSignInEmailBody = z.object({
   password: z.string(),
 });
 
+export const zSignUpTokenBody = z.object({
+  password: z.string().min(8).max(255),
+  timezone: z.string(),
+  token: z.string(),
+});
+
 export const zUpdateProjectTeamBody = z.object({
   emoji: z.union([z.string(), z.null()]).optional(),
   name: z.string().min(3).max(255),
@@ -132,16 +142,18 @@ export const zUser = z.object({
   id: z.string(),
   name: z.string(),
   referrer: z.union([z.string(), z.null()]),
+  stripe_customer_id: z.union([z.string(), z.null()]),
+  stripe_subscription_id: z.union([z.string(), z.null()]),
   updated_at: z.union([z.string(), z.null()]),
   verified_at: z.union([z.string(), z.null()]),
 });
 
-export const zHealthhandlerHealthResponse = z.object({
+export const zHealthHealthResponse = z.object({
   postgres_ping: z.string().optional(),
   redis_ping: z.string().optional(),
 });
 
-export const zProjectteamhandlerCreateProjectTeamBody = z.object({
+export const zProjectteamCreateProjectTeamBody = z.object({
   emoji: z.union([z.string(), z.null()]).optional(),
   name: z.string().min(3).max(255),
 });
@@ -156,17 +168,15 @@ export const zGetSessionResponse = zSession;
 
 export const zGetCurrentUserResponse = zCurrentUser;
 
-export const zGetHealthResponse = zHealthhandlerHealthResponse;
+export const zSignUpTokenResponse = zSession;
+
+export const zGetHealthResponse = zHealthHealthResponse;
 
 export const zCreateProjectResponse = zProject;
-
-export const zGetProjectResponse = zProject;
 
 export const zGetProjectTeamsResponse = z.array(zProjectTeam);
 
 export const zCreateProjectTeamResponse = zProjectTeam;
-
-export const zUpdateProjectTeamResponse = zProjectTeam;
 
 export const zGetProjectTeamResponse = zProjectTeam;
 
@@ -175,6 +185,10 @@ export const zGetProjectTeamMembershipsResponse = z.array(
 );
 
 export const zCreateProjectTeamMembershipResponse = zProjectTeamMembership;
+
+export const zGetProjectResponse = zProject;
+
+export const zUpdateProjectTeamResponse = zProjectTeam;
 
 export const zDeleteProjectTeamMembershipResponse = zProjectTeamMembership;
 

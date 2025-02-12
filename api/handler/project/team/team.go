@@ -34,11 +34,11 @@ func NewHandler(deps handler.BaseHandlerDeps) *Handler {
 //	@Accept		json
 //	@Produce	json
 //	@Param		projectSlug	path		string	true	"Project slug"
-//	@Param		teamSlug		path		string	true	"Team slug"
-//	@Success	200				{object}	repository.ProjectTeam
-//	@Failure	400				{object}	aserr.ASError
-//	@Failure	401				{object}	aserr.ASError
-//	@Failure	500				{object}	aserr.ASError
+//	@Param		teamSlug	path		string	true	"Team slug"
+//	@Success	200			{object}	repository.ProjectTeam
+//	@Failure	400			{object}	aserr.ASError
+//	@Failure	401			{object}	aserr.ASError
+//	@Failure	500			{object}	aserr.ASError
 //	@Router		/projects/{projectSlug}/teams/{teamSlug} [get]
 func (h *Handler) GetProjectTeam(w http.ResponseWriter, r *http.Request) (*asres.Response[*repository.ProjectTeam], error) {
 	ctx := r.Context()
@@ -63,10 +63,10 @@ func (h *Handler) GetProjectTeam(w http.ResponseWriter, r *http.Request) (*asres
 //	@Accept		json
 //	@Produce	json
 //	@Param		projectSlug	path		string	true	"Project slug"
-//	@Success	200				{object}	[]repository.ProjectTeam
-//	@Failure	400				{object}	aserr.ASError
-//	@Failure	401				{object}	aserr.ASError
-//	@Failure	500				{object}	aserr.ASError
+//	@Success	200			{object}	[]repository.ProjectTeam
+//	@Failure	400			{object}	aserr.ASError
+//	@Failure	401			{object}	aserr.ASError
+//	@Failure	500			{object}	aserr.ASError
 //	@Router		/projects/{projectSlug}/teams [get]
 func (h *Handler) GetProjectTeams(w http.ResponseWriter, r *http.Request) (*asres.Response[[]*repository.ProjectTeam], error) {
 	ctx := r.Context()
@@ -91,12 +91,12 @@ type CreateProjectTeamBody struct {
 //	@Tags		projectteam
 //	@Accept		json
 //	@Produce	json
-//	@Param		request			body		CreateProjectTeamBody	true	"Create project team body"
+//	@Param		request		body		CreateProjectTeamBody	true	"Create project team body"
 //	@Param		projectSlug	path		string					true	"Project slug"
-//	@Success	200				{object}	repository.ProjectTeam
-//	@Failure	400				{object}	aserr.ASError
-//	@Failure	401				{object}	aserr.ASError
-//	@Failure	500				{object}	aserr.ASError
+//	@Success	200			{object}	repository.ProjectTeam
+//	@Failure	400			{object}	aserr.ASError
+//	@Failure	401			{object}	aserr.ASError
+//	@Failure	500			{object}	aserr.ASError
 //	@Router		/projects/{projectSlug}/teams [post]
 func (h *Handler) CreateProjectTeam(w http.ResponseWriter, r *http.Request) (*asres.Response[*repository.ProjectTeam], error) {
 	ctx := r.Context()

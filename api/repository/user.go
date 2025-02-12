@@ -10,7 +10,9 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/guregu/null/v5"
+	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgtype"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
@@ -81,15 +83,15 @@ func (r *Repository) ListUsers(ctx context.Context, q pg.Querier, body *sql.Pagi
 }
 
 type CreateUserBody struct {
-	Name                 string           `json:"name" validate:"required" minLength:"3" maxLength:"255"`
-	Email                string           `json:"email" validate:"required,email" format:"email"`
-	StripeCustomerID     null.String      `json:"stripe_customer_id" validate:"required" swaggertype:"string" extensions:"x-nullable"`
-	StripeSubscriptionID null.String      `json:"stripe_subscription_id" validate:"required" swaggertype:"string" extensions:"x-nullable"`
-	Referrer             null.String      `json:"referrer" swaggertype:"string" extensions:"x-nullable"`
-	AvatarURL            null.String      `json:"avatar_url" swaggertype:"string" extensions:"x-nullable"`
-	VerifiedAt           pgtype.Timestamp `json:"verified_at" swaggertype:"string" extensions:"x-nullable"`
-	ArchivedAt           pgtype.Timestamp `json:"archived_at" swaggertype:"string" extensions:"x-nullable"`
-	ApprovedAt           pgtype.Timestamp `json:"approved_at" swaggertype:"string" extensions:"x-nullable"`
+	Name                 string             `json:"name" validate:"required" minLength:"3" maxLength:"255"`
+	Email                string             `json:"email" validate:"required,email" format:"email"`
+	StripeCustomerID     null.String        `json:"stripe_customer_id" validate:"required" swaggertype:"string" extensions:"x-nullable"`
+	StripeSubscriptionID null.String        `json:"stripe_subscription_id" validate:"required" swaggertype:"string" extensions:"x-nullable"`
+	Referrer             null.String        `json:"referrer" swaggertype:"string" extensions:"x-nullable"`
+	AvatarURL            null.String        `json:"avatar_url" swaggertype:"string" extensions:"x-nullable"`
+	VerifiedAt           pgtype.Timestamptz `json:"verified_at" swaggertype:"string" extensions:"x-nullable"`
+	ArchivedAt           pgtype.Timestamptz `json:"archived_at" swaggertype:"string" extensions:"x-nullable"`
+	ApprovedAt           pgtype.Timestamptz `json:"approved_at" swaggertype:"string" extensions:"x-nullable"`
 } // @name CreateUserBody
 
 func (r *Repository) CreateUser(ctx context.Context, q pg.Querier, body *CreateUserBody) (*User, error) {
@@ -101,6 +103,10 @@ func (r *Repository) CreateUser(ctx context.Context, q pg.Querier, body *CreateU
 	rows, _ := q.Query(ctx, query, args)
 	user, err := pgx.CollectExactlyOneRow(rows, pgx.RowToAddrOfStructByNameLax[User])
 	if err != nil {
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) && pgErr.Code == pgerrcode.UniqueViolation && pgErr.ConstraintName == "users_email_key" {
+			return nil, aserr.ErrUserAlreadyExists
+		}
 		return nil, err
 	}
 
@@ -113,15 +119,15 @@ type UpdateUserBodyFilter struct {
 }
 
 type UpdateUserBodyData struct {
-	Name                 *string           `json:"name"`
-	Email                *string           `json:"email" validate:"email" format:"email"`
-	StripeCustomerID     *null.String      `json:"stripe_customer_id" swaggertype:"string" extensions:"x-nullable"`
-	StripeSubscriptionID *null.String      `json:"stripe_subscription_id" swaggertype:"string" extensions:"x-nullable"`
-	Referrer             *null.String      `json:"referrer" swaggertype:"string" extensions:"x-nullable"`
-	AvatarURL            *null.String      `json:"avatar_url" swaggertype:"string" extensions:"x-nullable"`
-	VerifiedAt           *pgtype.Timestamp `json:"verified_at" swaggertype:"string" extensions:"x-nullable"`
-	ArchivedAt           *pgtype.Timestamp `json:"archived_at" swaggertype:"string" extensions:"x-nullable"`
-	ApprovedAt           *pgtype.Timestamp `json:"approved_at" swaggertype:"string" extensions:"x-nullable"`
+	Name                 *string             `json:"name"`
+	Email                *string             `json:"email" validate:"email" format:"email"`
+	StripeCustomerID     *null.String        `json:"stripe_customer_id" swaggertype:"string" extensions:"x-nullable"`
+	StripeSubscriptionID *null.String        `json:"stripe_subscription_id" swaggertype:"string" extensions:"x-nullable"`
+	Referrer             *null.String        `json:"referrer" swaggertype:"string" extensions:"x-nullable"`
+	AvatarURL            *null.String        `json:"avatar_url" swaggertype:"string" extensions:"x-nullable"`
+	VerifiedAt           *pgtype.Timestamptz `json:"verified_at" swaggertype:"string" extensions:"x-nullable"`
+	ArchivedAt           *pgtype.Timestamptz `json:"archived_at" swaggertype:"string" extensions:"x-nullable"`
+	ApprovedAt           *pgtype.Timestamptz `json:"approved_at" swaggertype:"string" extensions:"x-nullable"`
 }
 
 func (r *Repository) UpdateUser(ctx context.Context, q pg.Querier, filter *UpdateUserBodyFilter, body *UpdateUserBodyData) (*User, error) {

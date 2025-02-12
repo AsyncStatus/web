@@ -2,7 +2,7 @@ import { AsyncStatusLogo } from "./async-status-logo";
 
 export function SimpleHeader(props: { href: string }) {
   return (
-    <header className="flex items-center justify-center p-6">
+    <header className="mb-16 flex items-center justify-center p-6">
       <nav>
         <a
           className="flex items-center gap-0.5"

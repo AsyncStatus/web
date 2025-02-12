@@ -2,6 +2,7 @@ package email
 
 import (
 	"api/config"
+	"api/config/env"
 	"api/internal/log"
 	"fmt"
 	"net/smtp"
@@ -68,9 +69,9 @@ func (c *ProdClient) Send(email *resend.SendEmailRequest) error {
 }
 
 func (c *Client) Send(email *resend.SendEmailRequest) error {
-	// if c.cfg.AppEnv == env.Local {
-	// 	return c.LocalClient.Send(email)
-	// }
+	if c.cfg.AppEnv == env.Local {
+		return c.LocalClient.Send(email)
+	}
 
 	return c.ProdClient.Send(email)
 }

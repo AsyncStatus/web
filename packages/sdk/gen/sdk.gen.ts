@@ -58,6 +58,9 @@ import type {
   SignInEmailData,
   SignInEmailError,
   SignInEmailResponse,
+  SignUpTokenData,
+  SignUpTokenError,
+  SignUpTokenResponse,
   UpdateProjectTeamData,
   UpdateProjectTeamError,
   UpdateProjectTeamResponse,
@@ -144,6 +147,26 @@ export const getCurrentUser = <ThrowOnError extends boolean = true>(
 };
 
 /**
+ * signs up user by token
+ */
+export const signUpToken = <ThrowOnError extends boolean = true>(
+  options: Options<SignUpTokenData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).post<
+    SignUpTokenResponse,
+    SignUpTokenError,
+    ThrowOnError
+  >({
+    url: "/auth/token/sign-up",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
  * get health
  */
 export const getHealth = <ThrowOnError extends boolean = true>(
@@ -180,22 +203,6 @@ export const createProject = <ThrowOnError extends boolean = true>(
 };
 
 /**
- * get project
- */
-export const getProject = <ThrowOnError extends boolean = true>(
-  options: Options<GetProjectData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).get<
-    GetProjectResponse,
-    GetProjectError,
-    ThrowOnError
-  >({
-    url: "/projects/{project_slug}",
-    ...options,
-  });
-};
-
-/**
  * get project teams
  */
 export const getProjectTeams = <ThrowOnError extends boolean = true>(
@@ -206,7 +213,7 @@ export const getProjectTeams = <ThrowOnError extends boolean = true>(
     GetProjectTeamsError,
     ThrowOnError
   >({
-    url: "/projects/{project_slug}/teams",
+    url: "/projects/{projectSlug}/teams",
     ...options,
   });
 };
@@ -222,27 +229,7 @@ export const createProjectTeam = <ThrowOnError extends boolean = true>(
     CreateProjectTeamError,
     ThrowOnError
   >({
-    url: "/projects/{project_slug}/teams",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * update project team
- */
-export const updateProjectTeam = <ThrowOnError extends boolean = true>(
-  options: Options<UpdateProjectTeamData, ThrowOnError>
-) => {
-  return (options.client ?? _heyApiClient).put<
-    UpdateProjectTeamResponse,
-    UpdateProjectTeamError,
-    ThrowOnError
-  >({
-    url: "/projects/{project_slug}/teams/{id}",
+    url: "/projects/{projectSlug}/teams",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -262,7 +249,7 @@ export const getProjectTeam = <ThrowOnError extends boolean = true>(
     GetProjectTeamError,
     ThrowOnError
   >({
-    url: "/projects/{project_slug}/teams/{team_slug}",
+    url: "/projects/{projectSlug}/teams/{teamSlug}",
     ...options,
   });
 };
@@ -278,7 +265,7 @@ export const getProjectTeamMemberships = <ThrowOnError extends boolean = true>(
     GetProjectTeamMembershipsError,
     ThrowOnError
   >({
-    url: "/projects/{project_slug}/teams/{team_slug}/memberships",
+    url: "/projects/{projectSlug}/teams/{teamSlug}/memberships",
     ...options,
   });
 };
@@ -296,7 +283,43 @@ export const createProjectTeamMembership = <
     CreateProjectTeamMembershipError,
     ThrowOnError
   >({
-    url: "/projects/{project_slug}/teams/{team_slug}/memberships",
+    url: "/projects/{projectSlug}/teams/{teamSlug}/memberships",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * get project
+ */
+export const getProject = <ThrowOnError extends boolean = true>(
+  options: Options<GetProjectData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetProjectResponse,
+    GetProjectError,
+    ThrowOnError
+  >({
+    url: "/projects/{project_slug}",
+    ...options,
+  });
+};
+
+/**
+ * update project team
+ */
+export const updateProjectTeam = <ThrowOnError extends boolean = true>(
+  options: Options<UpdateProjectTeamData, ThrowOnError>
+) => {
+  return (options.client ?? _heyApiClient).put<
+    UpdateProjectTeamResponse,
+    UpdateProjectTeamError,
+    ThrowOnError
+  >({
+    url: "/projects/{project_slug}/teams/{id}",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -366,7 +389,7 @@ export const getUserProjects = <ThrowOnError extends boolean = true>(
     GetUserProjectsError,
     ThrowOnError
   >({
-    url: "/users/{user_id}/projects",
+    url: "/users/{userId}/projects",
     ...options,
   });
 };
@@ -382,7 +405,7 @@ export const getUserTeamMembership = <ThrowOnError extends boolean = true>(
     GetUserTeamMembershipError,
     ThrowOnError
   >({
-    url: "/users/{user_id}/projects/{project_slug}/memberships/{team_slug}",
+    url: "/users/{userId}/projects/{projectSlug}/memberships/{teamSlug}",
     ...options,
   });
 };

@@ -19,6 +19,7 @@ import { Route as LayoutIndexImport } from './routes/_layout.index'
 import { Route as authLayoutImport } from './routes/(auth)/_layout'
 import { Route as ProjectSlugLayoutImport } from './routes/$projectSlug/_layout'
 import { Route as ProjectSlugLayoutIndexImport } from './routes/$projectSlug/_layout.index'
+import { Route as authLayoutSignUpImport } from './routes/(auth)/_layout.sign-up'
 import { Route as authLayoutLoginImport } from './routes/(auth)/_layout.login'
 
 // Create Virtual Routes
@@ -70,6 +71,12 @@ const ProjectSlugLayoutIndexRoute = ProjectSlugLayoutIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => ProjectSlugLayoutRoute,
+} as any)
+
+const authLayoutSignUpRoute = authLayoutSignUpImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => authLayoutRoute,
 } as any)
 
 const authLayoutLoginRoute = authLayoutLoginImport.update({
@@ -138,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLayoutLoginImport
       parentRoute: typeof authLayoutImport
     }
+    '/(auth)/_layout/sign-up': {
+      id: '/(auth)/_layout/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof authLayoutSignUpImport
+      parentRoute: typeof authLayoutImport
+    }
     '/$projectSlug/_layout/': {
       id: '/$projectSlug/_layout/'
       path: '/'
@@ -186,10 +200,12 @@ const ProjectSlugRouteWithChildren = ProjectSlugRoute._addFileChildren(
 
 interface authLayoutRouteChildren {
   authLayoutLoginRoute: typeof authLayoutLoginRoute
+  authLayoutSignUpRoute: typeof authLayoutSignUpRoute
 }
 
 const authLayoutRouteChildren: authLayoutRouteChildren = {
   authLayoutLoginRoute: authLayoutLoginRoute,
+  authLayoutSignUpRoute: authLayoutSignUpRoute,
 }
 
 const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
@@ -212,6 +228,7 @@ export interface FileRoutesByFullPath {
   '/': typeof LayoutIndexRoute
   '/create-project': typeof CreateProjectIndexRoute
   '/login': typeof authLayoutLoginRoute
+  '/sign-up': typeof authLayoutSignUpRoute
   '/$projectSlug/': typeof ProjectSlugLayoutIndexRoute
 }
 
@@ -220,6 +237,7 @@ export interface FileRoutesByTo {
   '/': typeof LayoutIndexRoute
   '/create-project': typeof CreateProjectIndexRoute
   '/login': typeof authLayoutLoginRoute
+  '/sign-up': typeof authLayoutSignUpRoute
 }
 
 export interface FileRoutesById {
@@ -232,6 +250,7 @@ export interface FileRoutesById {
   '/_layout/': typeof LayoutIndexRoute
   '/create-project/': typeof CreateProjectIndexRoute
   '/(auth)/_layout/login': typeof authLayoutLoginRoute
+  '/(auth)/_layout/sign-up': typeof authLayoutSignUpRoute
   '/$projectSlug/_layout/': typeof ProjectSlugLayoutIndexRoute
 }
 
@@ -243,9 +262,10 @@ export interface FileRouteTypes {
     | '/'
     | '/create-project'
     | '/login'
+    | '/sign-up'
     | '/$projectSlug/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/$projectSlug' | '/' | '/create-project' | '/login'
+  to: '/$projectSlug' | '/' | '/create-project' | '/login' | '/sign-up'
   id:
     | '__root__'
     | '/_layout'
@@ -256,6 +276,7 @@ export interface FileRouteTypes {
     | '/_layout/'
     | '/create-project/'
     | '/(auth)/_layout/login'
+    | '/(auth)/_layout/sign-up'
     | '/$projectSlug/_layout/'
   fileRoutesById: FileRoutesById
 }
@@ -319,7 +340,8 @@ export const routeTree = rootRoute
       "filePath": "(auth)/_layout.tsx",
       "parent": "/(auth)",
       "children": [
-        "/(auth)/_layout/login"
+        "/(auth)/_layout/login",
+        "/(auth)/_layout/sign-up"
       ]
     },
     "/_layout/": {
@@ -331,6 +353,10 @@ export const routeTree = rootRoute
     },
     "/(auth)/_layout/login": {
       "filePath": "(auth)/_layout.login.tsx",
+      "parent": "/(auth)/_layout"
+    },
+    "/(auth)/_layout/sign-up": {
+      "filePath": "(auth)/_layout.sign-up.tsx",
       "parent": "/(auth)/_layout"
     },
     "/$projectSlug/_layout/": {

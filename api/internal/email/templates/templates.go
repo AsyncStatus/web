@@ -1,4 +1,3 @@
-//nolint:gochecknoglobals // it's okay
 package email
 
 import (
@@ -6,6 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
+	"net/url"
 	"os"
 )
 
@@ -14,50 +14,30 @@ type Template[T any] struct {
 	Render func(data *T) string
 }
 
-type ConfirmEmailTemplateData struct {
-	ConfirmURL string
-	Code       string
+type CreateAccountTemplateData struct {
+	Name             string
+	CreateAccountURL string
 }
 
-func NewConfirmEmailTemplateData(cfg *config.Config, email string, code string) *ConfirmEmailTemplateData {
-	return &ConfirmEmailTemplateData{
-		ConfirmURL: fmt.Sprintf("%s://%s/?hash=%s&email=%s", cfg.AppProtocol, cfg.AppHost, code, email),
-		Code:       code,
+func NewCreateAccountTemplateData(cfg *config.Config, name string, email string, token string) *CreateAccountTemplateData {
+	return &CreateAccountTemplateData{
+		Name:             name,
+		CreateAccountURL: fmt.Sprintf("%s://%s/sign-up?token=%s&email=%s", cfg.AppProtocol, cfg.AppHost, url.QueryEscape(token), url.QueryEscape(email)),
 	}
 }
 
-type ResetPasswordEmailTemplateData struct {
-	ResetPasswordURL string
-}
-
-type ProjectInviteTemplateData struct {
-	JoinProjectURL string
-	ProjectName    string
-	UserName       string
-}
-
 const (
-	ConfirmEmailTemplateName       = "confirm-email"
-	ResetPasswordEmailTemplateName = "reset-password-email"
-	ProjectInviteTemplateName      = "project-invite"
+	CreateAccountTemplateName = "create-account"
 )
 
-var ConfirmEmailTemplate = Template[ConfirmEmailTemplateData]{
-	Name:   ConfirmEmailTemplateName,
-	Render: makeRenderEmailFunc[ConfirmEmailTemplateData](ConfirmEmailTemplateName),
+var CreateAccountTemplate = Template[CreateAccountTemplateData]{
+	Name:   CreateAccountTemplateName,
+	Render: makeRenderEmailFunc[CreateAccountTemplateData](CreateAccountTemplateName),
 }
 
-var ResetPasswordEmailTemplate = Template[ResetPasswordEmailTemplateData]{
-	Name:   ResetPasswordEmailTemplateName,
-	Render: makeRenderEmailFunc[ResetPasswordEmailTemplateData](ResetPasswordEmailTemplateName),
+var TemplateNames = []string{
+	CreateAccountTemplate.Name,
 }
-
-var ProjectInviteTemplate = Template[ProjectInviteTemplateData]{
-	Name:   ProjectInviteTemplateName,
-	Render: makeRenderEmailFunc[ProjectInviteTemplateData](ProjectInviteTemplateName),
-}
-
-var TemplateNames = []string{ConfirmEmailTemplate.Name, ResetPasswordEmailTemplate.Name, ProjectInviteTemplate.Name}
 
 func renderEmailTemplate(templateName string, data interface{}) (string, error) {
 	dat, err := os.ReadFile("./internal/email/templates/" + templateName + ".html")

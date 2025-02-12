@@ -25,7 +25,7 @@ type Config struct {
 	SessionTTL          time.Duration `env:"SESSION_TTL" env-default:"1209600s"`
 	SessionCookieDomain string        `env:"SESSION_COOKIE_DOMAIN" env-default:"localhost"`
 
-	AppHost     string `env:"APP_HOST" env-default:"localhost:3000"`
+	AppHost     string `env:"APP_HOST" env-default:"localhost:5173"`
 	AppProtocol string `env:"APP_PROTOCOL" env-default:"http"`
 
 	StripeSecretKey            string `env:"STRIPE_SECRET_KEY"`

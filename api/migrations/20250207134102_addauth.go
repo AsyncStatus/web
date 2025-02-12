@@ -24,11 +24,11 @@ create table if not exists auth.accounts (
 	refresh_token varchar(255), -- provider
 	scope varchar(255), -- provider
 	password_hash varchar(98),
-	created_at timestamp not null default current_timestamp,
-	access_token_expires_at timestamp,
-	refresh_token_expires_at timestamp,
-	updated_at timestamp,
-	archived_at timestamp
+	created_at timestamptz not null default current_timestamp,
+	access_token_expires_at timestamptz,
+	refresh_token_expires_at timestamptz,
+	updated_at timestamptz,
+	archived_at timestamptz
 );
 
 create table if not exists auth.codes (
@@ -37,8 +37,8 @@ create table if not exists auth.codes (
 	type varchar(255) not null,
 	value varchar(64) not null,
 	value_hash varchar(255) not null,
-	created_at timestamp not null default current_timestamp,
-	expires_at timestamp not null default (current_timestamp + interval '1 days'),
+	created_at timestamptz not null,
+	expires_at timestamptz not null,
 	unique(user_id, type, value)
 );
 

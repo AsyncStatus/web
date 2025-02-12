@@ -30,11 +30,11 @@ func NewHandler(deps handler.BaseHandlerDeps) *Handler {
 //	@Accept		json
 //	@Produce	json
 //	@Param		projectSlug	path		string	true	"Project slug"
-//	@Param		teamSlug		path		string	true	"Team slug"
-//	@Success	200				{object}	[]repository.ProjectTeamMembershipWithUser
-//	@Failure	400				{object}	aserr.ASError
-//	@Failure	401				{object}	aserr.ASError
-//	@Failure	500				{object}	aserr.ASError
+//	@Param		teamSlug	path		string	true	"Team slug"
+//	@Success	200			{object}	[]repository.ProjectTeamMembershipWithUser
+//	@Failure	400			{object}	aserr.ASError
+//	@Failure	401			{object}	aserr.ASError
+//	@Failure	500			{object}	aserr.ASError
 //	@Router		/projects/{projectSlug}/teams/{teamSlug}/memberships [get]
 func (h *Handler) GetProjectTeamMemberships(w http.ResponseWriter, r *http.Request) (*asres.Response[[]repository.ProjectTeamMembershipWithUser], error) {
 	ctx := r.Context()
@@ -63,13 +63,13 @@ type CreateProjectTeamMembershipBody struct {
 //	@Tags		projectteammembership
 //	@Accept		json
 //	@Produce	json
-//	@Param		body			body		CreateProjectTeamMembershipBody	true	"Body"
+//	@Param		body		body		CreateProjectTeamMembershipBody	true	"Body"
 //	@Param		projectSlug	path		string							true	"Project slug"
-//	@Param		teamSlug		path		string							true	"Team slug"
-//	@Success	200				{object}	repository.ProjectTeamMembership
-//	@Failure	400				{object}	aserr.ASError
-//	@Failure	401				{object}	aserr.ASError
-//	@Failure	500				{object}	aserr.ASError
+//	@Param		teamSlug	path		string							true	"Team slug"
+//	@Success	200			{object}	repository.ProjectTeamMembership
+//	@Failure	400			{object}	aserr.ASError
+//	@Failure	401			{object}	aserr.ASError
+//	@Failure	500			{object}	aserr.ASError
 //	@Router		/projects/{projectSlug}/teams/{teamSlug}/memberships [post]
 func (h *Handler) CreateProjectTeamMembership(w http.ResponseWriter, r *http.Request) (*asres.Response[*repository.ProjectTeamMembership], error) {
 	ctx := r.Context()
