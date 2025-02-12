@@ -163,29 +163,6 @@ function RouteComponent() {
           </Button>
         </form>
       </Form>
-      <script
-        async
-        src="https://www.googletagmanager.com/gtag/js?id=AW-16869850476"
-      ></script>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-
-gtag('config', 'AW-16869850476');`,
-        }}
-      />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `gtag('event', 'conversion', {
-  'send_to': 'AW-16869850476/tWzsCPyv6JwaEOz6lew-',
-  'value': 3.0,
-  'currency': 'USD',
-  'transaction_id': ''
-`,
-        }}
-      />
     </>
   );
 }
