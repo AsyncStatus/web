@@ -2,6 +2,7 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { PostHogProvider } from "./providers";
 
@@ -48,6 +49,9 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <body className={favorit.variable}>
         <PostHogProvider>{props.children}</PostHogProvider>
       </body>
+      {process.env.NEXT_PUBLIC_GAID && (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GAID} />
+      )}
     </html>
   );
 }

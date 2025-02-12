@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@asyncstatus/ui": "workspace:*",
+    "@next/third-parties": "^15.1.7",
     "@phosphor-icons/react": "2.1.7",
     "@tailwindcss/postcss": "4.0.5",
     "next": "15.1.6",
