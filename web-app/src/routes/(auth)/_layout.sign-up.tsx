@@ -19,9 +19,33 @@ import { z } from "zod";
 
 import { router } from "../../router";
 
-// http://localhost:5173/sign-up?token=12098e068416083016f26b2719832d6a9a79fe8c3ef13976253d3918862a2f8afcbef22861f401e444ca956d3079f81ef2d8c2c3457232859ec053eb50e156c0&email=contact20%40och.dev
-
 export const Route = createFileRoute("/(auth)/_layout/sign-up")({
+  errorComponent: () => (
+    <main className="container mx-auto flex flex-col items-center justify-center pt-32">
+      <section
+        aria-labelledby="not-found-title"
+        className="mx-auto flex w-full flex-col items-center justify-center gap-2"
+      >
+        <div className="text-center">
+          <h1
+            id="not-found-title"
+            className="mb-4 mt-4 text-balance text-5xl font-semibold"
+          >
+            Something went wrong
+          </h1>
+          <h2 className="text-muted-foreground">
+            Please try again later or contact support.
+          </h2>
+        </div>
+
+        <div className="mt-6">
+          <Button asChild variant="secondary">
+            <a href="mailto:support@asyncstatus.com">Contact support</a>
+          </Button>
+        </div>
+      </section>
+    </main>
+  ),
   validateSearch: z.object({ token: z.string(), email: z.string() }),
   component: RouteComponent,
 });
