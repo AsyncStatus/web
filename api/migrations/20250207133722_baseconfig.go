@@ -15,6 +15,7 @@ func upBaseconfig(ctx context.Context, tx *sql.Tx) error {
 	_, err := tx.ExecContext(ctx, `
 set time zone 'UTC';
 create extension if not exists "uuid-ossp";
+create extension if not exists timescaledb cascade;
 `)
 	return err
 }
