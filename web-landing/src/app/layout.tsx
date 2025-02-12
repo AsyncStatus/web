@@ -44,6 +44,19 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={favorit.variable}>{props.children}</body>
+      <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=AW-16869850476"
+      ></script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'AW-16869850476');`,
+        }}
+      />
     </html>
   );
 }

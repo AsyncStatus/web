@@ -176,6 +176,16 @@ gtag('js', new Date());
 gtag('config', 'AW-16869850476');`,
         }}
       />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `gtag('event', 'conversion', {
+  'send_to': 'AW-16869850476/tWzsCPyv6JwaEOz6lew-',
+  'value': 3.0,
+  'currency': 'USD',
+  'transaction_id': ''
+`,
+        }}
+      />
     </>
   );
 }
