@@ -15,14 +15,15 @@
     "@asyncstatus/ui": "workspace:*",
     "@phosphor-icons/react": "2.1.7",
     "@tailwindcss/postcss": "4.0.5",
-    "tailwindcss": "4.0.6",
+    "next": "15.1.6",
     "postcss": "8.5.2",
+    "posthog-js": "1.217.2",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "next": "15.1.6"
+    "tailwindcss": "4.0.6"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.2",
+    "@types/bun": "1.2.2",
     "@types/node": "22.13.1",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",

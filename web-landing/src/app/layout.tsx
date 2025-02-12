@@ -3,6 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
+import { PostHogProvider } from "./providers";
+
 const favorit = localFont({
   src: [
     { path: "./fonts/ABCFavorit-Bold.woff2", weight: "700" },
@@ -43,7 +45,9 @@ export const metadata: Metadata = {
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={favorit.variable}>{props.children}</body>
+      <body className={favorit.variable}>
+        <PostHogProvider>{props.children}</PostHogProvider>
+      </body>
     </html>
   );
 }

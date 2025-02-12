@@ -27,6 +27,8 @@ COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
 
 ARG NEXT_PUBLIC_STRIPE_LINK
+ARG NEXT_PUBLIC_POSTHOG_KEY
+ARG NEXT_PUBLIC_POSTHOG_HOST
 ENV NODE_ENV=production
 RUN cd /usr/src/app/web-landing && bun run build
 
