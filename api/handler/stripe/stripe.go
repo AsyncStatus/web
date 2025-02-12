@@ -133,6 +133,7 @@ func (h *Handler) Webhook(w http.ResponseWriter, r *http.Request) (*asres.Respon
 		emailData := emailtemplate.NewCreateAccountTemplateData(h.Config(), strings.Split(name, " ")[0], email, valueHash)
 		if err := h.EmailClient().Send(&resend.SendEmailRequest{
 			From:    "AsyncStatus <accounts@a.asyncstatus.com>",
+			ReplyTo: "support@asyncstatus.com",
 			To:      []string{email},
 			Subject: "Create account",
 			Html:    emailtemplate.CreateAccountTemplate.Render(emailData),
