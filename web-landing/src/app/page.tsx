@@ -109,51 +109,11 @@ export default function NewPage() {
 
       <h3 className="mb-1.5 mt-8 text-base font-semibold">Features</h3>
       <ul className="list-inside list-disc text-sm">
-        <li>
-          Integrations with GitHub and Slack.{" "}
-          <span
-            role="button"
-            className="text-muted-foreground underline underline-offset-2"
-          >
-            Examples
-          </span>
-        </li>
-        <li>
-          Blockers and mood changes.{" "}
-          <span
-            role="button"
-            className="text-muted-foreground underline underline-offset-2"
-          >
-            Examples
-          </span>
-        </li>
-        <li>
-          User timezones.{" "}
-          <span
-            role="button"
-            className="text-muted-foreground underline underline-offset-2"
-          >
-            Examples
-          </span>
-        </li>
-        <li>
-          Slack bot that asks for scheduled updates and posts summaries.{" "}
-          <span
-            role="button"
-            className="text-muted-foreground underline underline-offset-2"
-          >
-            Examples
-          </span>
-        </li>
-        <li>
-          Manual updates.{" "}
-          <span
-            role="button"
-            className="text-muted-foreground underline underline-offset-2"
-          >
-            Examples
-          </span>
-        </li>
+        <li>Integrations with GitHub and Slack.</li>
+        <li>Blockers and mood changes.</li>
+        <li>User timezones.</li>
+        <li>Slack bot that asks for scheduled updates and posts summaries.</li>
+        <li>Manual updates.</li>
         <li>
           <Link
             target="_blank"
@@ -164,24 +124,6 @@ export default function NewPage() {
           </Link>
         </li>
       </ul>
-      {/* <ul className="text-sm list-disc list-inside">
-        <li>
-          Integrations with GitHub, Slack. We listen for updates from your tools and generate easy
-          to read summary.{" "}
-          <span role="button" className="text-muted-foreground underline">
-            Click to see examples
-          </span>
-          .
-        </li>
-        <li>
-          <span role="button" className="text-muted-foreground underline">
-            Open source
-          </span>
-          .
-        </li>
-      </ul> */}
-      {/* <h1 className="font-medium text-lg mt-1">Async status updates for remote startups</h1>
-      <h2 className="text-sm">Built for high-agency teams working globally.</h2> */}
     </div>
   );
 }
