@@ -46,7 +46,7 @@ export const Route = createFileRoute("/(auth)/_layout/sign-up")({
       </section>
     </main>
   ),
-  validateSearch: z.object({ token: z.string(), email: z.string() }),
+  validateSearch: z.object({ token: z.string(), email: z.string().email() }),
   component: RouteComponent,
 });
 
@@ -85,82 +85,97 @@ function RouteComponent() {
   });
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((values) =>
-          loginEmail.mutate({ body: values })
-        )}
-        className="mx-auto flex max-w-[230px] flex-col items-center gap-4"
-      >
-        <h1 className="mb-6 text-xl font-medium">Create account</h1>
-
-        <div className="w-full">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="name@example.com"
-            autoCapitalize="none"
-            autoComplete="email"
-            autoCorrect="off"
-            readOnly
-            disabled
-            value={search.email}
-          />
-        </div>
-
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  autoComplete="new-password"
-                  placeholder="**********"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+    <>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit((values) =>
+            loginEmail.mutate({ body: values })
           )}
-        />
-
-        <FormField
-          control={form.control}
-          name="repeatPassword"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Repeat password</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  autoComplete="new-password"
-                  placeholder="**********"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {loginEmail.error && (
-          <p className="text-destructive text-sm font-medium">
-            {loginEmail.error.message}
-          </p>
-        )}
-
-        <Button
-          className="w-full self-end"
-          type="submit"
-          disabled={loginEmail.isPending}
+          className="mx-auto flex max-w-[230px] flex-col items-center gap-4"
         >
-          Create account
-        </Button>
-      </form>
-    </Form>
+          <h1 className="mb-6 text-xl font-medium">Create account</h1>
+
+          <div className="w-full">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="name@example.com"
+              autoCapitalize="none"
+              autoComplete="email"
+              autoCorrect="off"
+              readOnly
+              disabled
+              value={search.email}
+            />
+          </div>
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    autoComplete="new-password"
+                    placeholder="**********"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="repeatPassword"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Repeat password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    autoComplete="new-password"
+                    placeholder="**********"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {loginEmail.error && (
+            <p className="text-destructive text-sm font-medium">
+              {loginEmail.error.message}
+            </p>
+          )}
+
+          <Button
+            className="w-full self-end"
+            type="submit"
+            disabled={loginEmail.isPending}
+          >
+            Create account
+          </Button>
+        </form>
+      </Form>
+      <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=AW-16869850476"
+      ></script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'AW-16869850476');`,
+        }}
+      />
+    </>
   );
 }
